@@ -71,7 +71,7 @@ function Signup() {
         </button>
       </form>
       <p className='auth__changeview'>
-        Inget konto än? Skapa ett <Link to='/login'>här</Link>
+        Har du redan ett konto? Logga in <Link to='/login'>här</Link>
       </p>
     </main>
   );

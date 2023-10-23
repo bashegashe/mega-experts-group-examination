@@ -72,7 +72,7 @@ function Login() {
         </button>
       </form>
       <p className='auth__changeview'>
-        Har du redan ett konto? Logga in <Link to='/signup'>här</Link>
+        Inget konto än? Skapa ett <Link to='/signup'>här</Link>
       </p>
     </main>
   );
