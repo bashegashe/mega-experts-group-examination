@@ -16,16 +16,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Install modules
         run: npm install
+        working-directory: ./Make your meeter # Set the working directory to your frontend folder
+
       - name: Build dist
         run: npm run build
+        working-directory: ./Make your meeter # Set the working directory to your frontend folder
+
       - name: Setup pages
         uses: actions/configure-pages@v3
+
       - name: Upload dist folder
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './dist'
+          path: './Make your meeter/dist' # Set the path to your frontend/dist folder
+
       - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v1
