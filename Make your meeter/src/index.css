@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Glegoo:wght@400;700&family=Gothic+A1:wght@100;300;400;500;600;700;900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Gothic A1', sans-serif;
+}
+
+p {
+  font-size: 12px;
+}
+
+body {
+  background-color: lightgrey;
+}
+
+.main {
+  max-width: 330px;
+  height: 100vh;
+  padding: 1rem;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.main__title {
+  margin-bottom: 1rem;
+}
+
+.header__title {
+  font-family: 'Glegoo';
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.auth__changeview {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.input__large {
+  height: 40px;
+  width: 300px;
+  padding-left: 1rem;
+  background-color: #f2f2f2;
+  color: #7f7f7f;
+  border: none;
+  border-radius: 100px;
+}
+
+.button__large {
+  border: none;
+  border-radius: 100px;
+  height: 50px;
+  width: 100%;
+  color: #fffeff;
+  background: linear-gradient(90deg, rgba(156, 65, 192, 1) 0%, rgba(228, 64, 232, 1) 100%);
+  cursor: pointer;
+}
