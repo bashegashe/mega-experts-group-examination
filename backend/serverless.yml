@@ -1,0 +1,64 @@
+service: mega-experts-ci-cd-group-examination-backend
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: ${env:PROFILE}
+  region: eu-north-1
+  iam:
+    role: ${env:LAMBDA_ROLE}
+  deploymentMethod: direct
+  httpApi:
+    cors:
+      allowedOrigins:
+        - 'http://localhost:5173'
+      allowedHeaders:
+        - Content-Type
+        - X-Amz-Date
+        - Authorization
+        - X-Api-Key
+        - X-Amz-Security-Token
+        - X-Amz-User-Agent
+        - X-Amzn-Trace-Id
+      allowCredentials: true
+  environment:
+    TABLE_NAME: table
+    SECRET_KEY: ${env:SECRET_KEY}
+
+useDotenv: true
+plugins:
+  - serverless-webpack
+package:
+  individually: true
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.cjs'
+
+functions:
+  login:
+    handler: src/functions/User/login.handler
+    events:
+      - httpApi: 'POST /api/auth/login'
+  register:
+    handler: src/functions/User/register.handler
+    events:
+      - httpApi: 'POST /api/auth/register'
+
+resources:
+  Resources:
+    Database:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: PK
+            AttributeType: S
+          - AttributeName: SK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: PK
+            KeyType: HASH
+          - AttributeName: SK
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST

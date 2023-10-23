@@ -1,0 +1,12 @@
+{
+  "extends": "./jsconfig.paths.json",
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    ".vscode/**/*"
+  ]
+}
