@@ -1,6 +1,8 @@
 import crypto from 'crypto';
 import db from '../src/services/db.js';
 
+const NUMBER_OF_MEETUPS = 5;
+
 const generateMeetup = () => {
   const id = crypto.randomUUID();
 
@@ -25,9 +27,7 @@ const generateMeetup = () => {
   };
 };
 
-const meetups = [
-  generateMeetup(), generateMeetup(), generateMeetup(), generateMeetup(), generateMeetup(),
-];
+const meetups = Array.from({ length: NUMBER_OF_MEETUPS }, generateMeetup);
 
 const requests = meetups.map((meetup) => ({
   PutRequest: {
