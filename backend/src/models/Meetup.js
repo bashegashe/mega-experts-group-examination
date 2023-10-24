@@ -14,3 +14,17 @@ export async function getMeetups() {
 
   return Items;
 }
+
+export async function getMeetup(id) {
+  const params = {
+    TableName: process.env.TABLE_NAME,
+    Key: {
+      PK: `MEETUP#${id}`,
+      SK: `MEETUP#${id}`,
+    },
+  };
+
+  const { Item } = await Services.db.get(params).promise();
+
+  return Item;
+}
