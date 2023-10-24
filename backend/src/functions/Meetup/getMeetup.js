@@ -3,6 +3,7 @@ import Models from '@/models';
 import Middleware from '@/middleware';
 import { sendResponse } from '@/responses';
 import { ApiError } from '@/errors';
+import Utils from '@/utils';
 
 const getMeetup = async (event) => {
   const { id } = event.pathParameters;
@@ -17,12 +18,8 @@ const getMeetup = async (event) => {
     throw new ApiError(404, 'Meetup not found');
   }
 
-  const {
-    PK, SK, GSI1PK, GSI1SK, ...rest
-  } = meetup;
-
   return sendResponse(200, {
-    meetup: rest,
+    meetup: Utils.prepareItem(meetup),
   });
 };
 
