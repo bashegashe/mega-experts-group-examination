@@ -22,7 +22,7 @@ jobs:
         working-directory: ./frontend # Set the working directory to your frontend folder
 
       - name: Build dist
-        run: npm run build-dev
+        run: npm run build
         working-directory: ./frontend # Set the working directory to your frontend folder
 
       - name: Setup pages
