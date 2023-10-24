@@ -44,7 +44,10 @@ export async function getMeetups() {
     item.reviews = await getReviews(item);
   }));
 
-  return Items;
+  const currentTime = new Date();
+  const upcomingMeetups = Items.filter((item) => new Date(item.date) >= currentTime);
+
+  return upcomingMeetups;
 }
 
 export async function getMeetup(id) {
