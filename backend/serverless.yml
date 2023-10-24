@@ -57,6 +57,10 @@ functions:
     handler: src/functions/Meetup/meetupRegistration.handler
     events:
       - httpApi: 'POST /api/meetups/{id}'
+  addReview:
+    handler: src/functions/Meetup/addReview.handler
+    events:
+      - httpApi: 'POST /api/meetups/review/{id}'
 
 resources:
   Resources:
