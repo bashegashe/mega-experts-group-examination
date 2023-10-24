@@ -1,5 +1,6 @@
 import Services from '@/services';
 import Utils from '@/utils';
+import crypto from 'crypto';
 
 export async function createUser(username, password) {
   const params = {
@@ -7,9 +8,11 @@ export async function createUser(username, password) {
     Item: {
       PK: username,
       SK: username,
+      username,
       password: Utils.bcrypt.hashPassword(password),
+      id: crypto.randomUUID(),
     },
-    ConditionExpression: 'attribute_not_exists(PK)',
+    ConditionExpression: 'attribute_not_exists(PK) AND attribute_not_exists(id)',
   };
 
   await Services.db.put(params).promise();

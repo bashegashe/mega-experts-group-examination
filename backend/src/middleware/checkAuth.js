@@ -5,8 +5,6 @@ import Models from '@/models';
 const checkAuth = () => ({
   before: async (req) => {
     try {
-      console.log(req.event);
-
       const token = Utils.cookie.getCookie(req.event.cookies, 'token');
       if (!token) {
         return sendResponse(400, 'Token in cookie is missing');
@@ -18,7 +16,10 @@ const checkAuth = () => ({
         return sendResponse(400, 'Token in cookie is invalid');
       }
 
-      req.event.user = user.PK;
+      const {
+        PK, SK, GSI1PK, GSI1SK, password, ...rest
+      } = user;
+      req.event.user = rest;
 
       return req.response;
     } catch (error) {
