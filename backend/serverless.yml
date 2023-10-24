@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs18.x
   profile: ${env:PROFILE}
-  region: eu-north-1
+  region: ${env:AWS_REGION}
   iam:
     role: ${env:LAMBDA_ROLE}
   deploymentMethod: direct
@@ -13,6 +13,7 @@ provider:
     cors:
       allowedOrigins:
         - 'http://localhost:5173'
+        - ${env:GITHUB_PAGES_URL}
       allowedHeaders:
         - Content-Type
         - X-Amz-Date
@@ -23,7 +24,7 @@ provider:
         - X-Amzn-Trace-Id
       allowCredentials: true
   environment:
-    TABLE_NAME: table
+    TABLE_NAME: ${env:TABLE_NAME}
     SECRET_KEY: ${env:SECRET_KEY}
 
 useDotenv: true
