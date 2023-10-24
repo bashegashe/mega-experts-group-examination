@@ -13,6 +13,7 @@ provider:
     cors:
       allowedOrigins:
         - 'http://localhost:5173'
+        - ${env:GITHUB_PAGES_URL}
       allowedHeaders:
         - Content-Type
         - X-Amz-Date
@@ -23,7 +24,7 @@ provider:
         - X-Amzn-Trace-Id
       allowCredentials: true
   environment:
-    TABLE_NAME: table
+    TABLE_NAME: meetups
     SECRET_KEY: ${env:SECRET_KEY}
 
 useDotenv: true
