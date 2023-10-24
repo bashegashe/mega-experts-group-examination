@@ -65,6 +65,10 @@ functions:
     handler: src/functions/User/profile.handler
     events:
       - httpApi: 'GET /api/profile'
+  unregister:
+    handler: src/functions/Meetup/meetupUnregistration.handler
+    events:
+      - httpApi: 'DELETE /api/meetups/{id}'
 
 resources:
   Resources:

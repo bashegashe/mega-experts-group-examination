@@ -136,3 +136,28 @@ export async function getProfile(userId) {
 
   return { upcomingMeetups, oldMeetups };
 }
+
+export async function meetupUnregistration(meetup, userId) {
+  const params = {
+    TableName: process.env.TABLE_NAME,
+    Key: {
+      PK: `MEETUP#${meetup.id}`,
+      SK: `PARTICIPANT#${userId}`,
+    },
+  };
+
+  const params2 = {
+    TableName: process.env.TABLE_NAME,
+    Key: {
+      PK: `USER#${userId}#MEETUPS`,
+      SK: `MEETUP#${meetup.id}`,
+    },
+  };
+
+  try {
+    await Services.db.delete(params).promise();
+    await Services.db.delete(params2).promise();
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+}
