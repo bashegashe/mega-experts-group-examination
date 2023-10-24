@@ -6,7 +6,7 @@ import Meetups from './pages/Meetups';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route index element={<Navigate replace to='login' />} />
         <Route path='login' element={<Login />} />
