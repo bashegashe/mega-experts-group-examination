@@ -129,12 +129,17 @@ export async function getProfile(userId) {
 
   const { Items } = await Services.db.query(params).promise();
 
+  const meetups = await Promise.all(Items.map(async (item) => {
+    const meetup = await getMeetup(item.id);
+    return meetup;
+  }));
+
   const currentTime = new Date();
-  const upcomingMeetups = Items
-    .filter((item) => new Date(item.GSI1SK) >= currentTime)
+  const upcomingMeetups = meetups
+    .filter((item) => new Date(item.date) >= currentTime)
     .map(({ id, title, description }) => ({ id, title, description }));
-  const oldMeetups = Items
-    .filter((item) => new Date(item.GSI1SK) < currentTime)
+  const oldMeetups = meetups
+    .filter((item) => new Date(item.date) < currentTime)
     .map(({ id, title, description }) => ({ id, title, description }));
 
   return { upcomingMeetups, oldMeetups };
