@@ -23,7 +23,6 @@ const generateMeetup = () => {
     GSI1SK: PK,
     category: `${['Matlagningskurs', 'Bokklubb', 'Sportevent'][Math.floor(Math.random() * 3)]}`,
     id,
-    attendees: [],
   };
 };
 

@@ -53,6 +53,10 @@ functions:
     handler: src/functions/Meetup/getMeetup.handler
     events:
       - httpApi: 'GET /api/meetups/{id}'
+  meetupReg:
+    handler: src/functions/Meetup/meetupRegistration.handler
+    events:
+      - httpApi: 'POST /api/meetups/{id}'
 
 resources:
   Resources:

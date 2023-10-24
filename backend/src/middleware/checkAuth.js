@@ -19,7 +19,7 @@ const checkAuth = () => ({
       const {
         PK, SK, GSI1PK, GSI1SK, password, ...rest
       } = user;
-      req.event.user = rest;
+      req.event.user = rest; // user = { username, id }
 
       return req.response;
     } catch (error) {
