@@ -11,6 +11,6 @@ export function getCookie(cookies, cookieName) {
 
 export function sendCookie(token) {
   return sendResponse(200, undefined, {
-    'Set-Cookie': `token=${token}; HttpOnly; Secure; SameSite=None;`,
+    'Set-Cookie': `token=${token}; Path=/; HttpOnly; Secure; SameSite=None;`,
   });
 }
