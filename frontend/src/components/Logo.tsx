@@ -1,4 +1,4 @@
-const logoIcon = `/logo.svg`;
+const logoIcon = `https://bashegashe.github.io/mega-experts-group-examination/logo.svg`;
 
 function Logo() {
   return (
