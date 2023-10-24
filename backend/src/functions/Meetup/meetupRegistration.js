@@ -25,6 +25,10 @@ const meetupRegistration = async (event) => {
     throw new ApiError(400, 'You are already in this meetup');
   }
 
+  if (new Date() > new Date(meetup.date)) {
+    throw new ApiError(400, 'You cannot register to past meetup');
+  }
+
   await Models.Meetup.meetupRegistration(meetup, event.user.id);
 
   return sendResponse(200);
