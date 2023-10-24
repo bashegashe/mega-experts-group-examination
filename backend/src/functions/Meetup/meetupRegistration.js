@@ -25,7 +25,7 @@ const meetupRegistration = async (event) => {
     throw new ApiError(400, 'You are already in this meetup');
   }
 
-  await Models.Meetup.meetupRegistration(id, event.user.id);
+  await Models.Meetup.meetupRegistration(meetup, event.user.id);
 
   return sendResponse(200);
 };

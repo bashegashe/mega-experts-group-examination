@@ -64,18 +64,32 @@ export async function getMeetup(id) {
   return Item;
 }
 
-export async function meetupRegistration(meetupId, userId) {
+export async function meetupRegistration(meetup, userId) {
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {
-      PK: `MEETUP#${meetupId}`,
+      PK: `MEETUP#${meetup.id}`,
       SK: `PARTICIPANT#${userId}`,
       userId,
     },
   };
 
+  const params2 = {
+    TableName: process.env.TABLE_NAME,
+    Item: {
+      PK: `USER#${userId}#MEETUPS`,
+      SK: `MEETUP#${meetup.id}`,
+      GSI1PK: `USER#${userId}#MEETUPS`,
+      GSI1SK: meetup.date,
+      id: meetup.id,
+      title: meetup.title,
+      description: meetup.description,
+    },
+  };
+
   try {
     await Services.db.put(params).promise();
+    await Services.db.put(params2).promise();
   } catch (error) {
     throw new ApiError(500, error.message);
   }
@@ -98,4 +112,27 @@ export async function addReview(meetupId, review, rating, userId) {
   } catch (error) {
     throw new ApiError(500, error.message);
   }
+}
+
+export async function getProfile(userId) {
+  const params = {
+    TableName: process.env.TABLE_NAME,
+    IndexName: 'GSI1',
+    KeyConditionExpression: 'GSI1PK = :pk',
+    ExpressionAttributeValues: {
+      ':pk': `USER#${userId}#MEETUPS`,
+    },
+  };
+
+  const { Items } = await Services.db.query(params).promise();
+
+  const currentTime = new Date();
+  const upcomingMeetups = Items
+    .filter((item) => new Date(item.GSI1SK) >= currentTime)
+    .map(({ id, title, description }) => ({ id, title, description }));
+  const oldMeetups = Items
+    .filter((item) => new Date(item.GSI1SK) < currentTime)
+    .map(({ id, title, description }) => ({ id, title, description }));
+
+  return { upcomingMeetups, oldMeetups };
 }

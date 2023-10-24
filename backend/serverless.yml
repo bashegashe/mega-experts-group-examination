@@ -61,6 +61,10 @@ functions:
     handler: src/functions/Meetup/addReview.handler
     events:
       - httpApi: 'POST /api/meetups/review/{id}'
+  profile:
+    handler: src/functions/User/profile.handler
+    events:
+      - httpApi: 'GET /api/profile'
 
 resources:
   Resources:
