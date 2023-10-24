@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Logo from '../components/Logo';
+import Menu from '../components/Menu';
 
 const APIURI = 'https://b6ptukl1l9.execute-api.eu-north-1.amazonaws.com/';
 
@@ -74,6 +75,7 @@ function Login() {
       <p className='auth__changeview'>
         Inget konto än? Skapa ett <Link to='/signup'>här</Link>
       </p>
+      <Menu />
     </main>
   );
 }
