@@ -1,5 +1,6 @@
 import './header.css';
 import { BASE_URI } from '../../utils/constants';
+// const APIURI = import.meta.env.VITE_APP_API_URL;
 
 const logoIcon = `${BASE_URI}logo.svg`;
 

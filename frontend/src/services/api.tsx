@@ -1,4 +1,4 @@
-import { BASE_URI } from '../utils/constants';
+import { API_URI } from '../utils/constants';
 
 const createRequest = (method: string, body?: string) => {
   return {
@@ -14,9 +14,9 @@ const createRequest = (method: string, body?: string) => {
 const callApi = async (endpoint: string, method: string, body?: string, param?: string) => {
   const request = createRequest(method, body || undefined);
 
-  let url = `${BASE_URI}${endpoint}`;
+  let url = `${API_URI}${endpoint}`;
 
-  if (param) url = `${BASE_URI}${endpoint}/${param}`;
+  if (param) url = `${API_URI}${endpoint}/${param}`;
 
   try {
     const response = await fetch(url, request);

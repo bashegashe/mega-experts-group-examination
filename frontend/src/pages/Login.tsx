@@ -4,7 +4,8 @@ import Logo from '../components/Logo/Header';
 import Menu from '../components/Menu/Menu';
 import AuthForm from '../components/AuthForm/AuthForm';
 
-const APIURI = import.meta.env.VITE_APP_API_URL;
+import { postSignin } from '../services/api';
+import { FormData } from '../types/types';
 
 function Login() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import Menu from '../components/Menu/Menu';
+import Menu from '.././components/Menu/Menu';
 import MeetupSmallCard from '../components/MeetupSmallCard/MeetupSmallCard';
 
 import { getMeetupsProfile } from '../services/api';
