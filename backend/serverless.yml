@@ -45,6 +45,30 @@ functions:
     handler: src/functions/User/register.handler
     events:
       - httpApi: 'POST /api/auth/register'
+  getMeetups:
+    handler: src/functions/Meetup/getMeetups.handler
+    events:
+      - httpApi: 'GET /api/meetups'
+  getMeetup:
+    handler: src/functions/Meetup/getMeetup.handler
+    events:
+      - httpApi: 'GET /api/meetups/{id}'
+  meetupReg:
+    handler: src/functions/Meetup/meetupRegistration.handler
+    events:
+      - httpApi: 'POST /api/meetups/{id}'
+  addReview:
+    handler: src/functions/Meetup/addReview.handler
+    events:
+      - httpApi: 'POST /api/meetups/review/{id}'
+  profile:
+    handler: src/functions/User/profile.handler
+    events:
+      - httpApi: 'GET /api/profile'
+  unregister:
+    handler: src/functions/Meetup/meetupUnregistration.handler
+    events:
+      - httpApi: 'DELETE /api/meetups/{id}'
 
 resources:
   Resources:
@@ -57,9 +81,22 @@ resources:
             AttributeType: S
           - AttributeName: SK
             AttributeType: S
+          - AttributeName: GSI1PK
+            AttributeType: S
+          - AttributeName: GSI1SK
+            AttributeType: S
         KeySchema:
           - AttributeName: PK
             KeyType: HASH
           - AttributeName: SK
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: GSI1
+            KeySchema:
+              - AttributeName: GSI1PK
+                KeyType: HASH
+              - AttributeName: GSI1SK
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL

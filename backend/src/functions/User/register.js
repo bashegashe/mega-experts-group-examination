@@ -2,23 +2,13 @@ import { sendResponse } from '@/responses';
 import { DbError } from '@/errors';
 import Services from '@/services';
 import Schemas from '@/schemas';
-import Utils from '@/utils';
+import Models from '@/models';
 
 const registerHandler = async (event) => {
   const { username, password } = event.body;
 
-  const params = {
-    TableName: process.env.TABLE_NAME,
-    Item: {
-      PK: username,
-      SK: username,
-      password: Utils.bcrypt.hashPassword(password),
-    },
-    ConditionExpression: 'attribute_not_exists(PK)',
-  };
-
   try {
-    await Services.db.put(params).promise();
+    await Models.User.createUser(username, password);
   } catch (error) {
     if (error.code === 'ConditionalCheckFailedException') {
       throw new DbError(error.code, 'Username already exists');
