@@ -1,9 +1,9 @@
 import './MeetupSmallCard.css';
 import { Link } from 'react-router-dom';
 
-// import { BASE_URI } from '../../utils/constants';
-const arrowSvg = `/arrow-right.svg`;
-// const arrowSvg = `${BASE_URI}arrow-right.svg`;
+import { BASE_URI } from '../../utils/constants';
+// const arrowSvg = `/arrow-right.svg`;
+const arrowSvg = `${BASE_URI}arrow-right.svg`;
 
 function MeetupSmallCard({
   title,
