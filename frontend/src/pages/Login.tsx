@@ -43,6 +43,7 @@ function Login() {
       <h3 className='main__title'>Logga in</h3>
       <AuthForm onSubmit={handleLogin} initialValues={{ username: '', password: '' }} />
       {isLoading && <Loader />}
+      <Loader />
 
       <p className='auth__changeview'>
         Inget konto än? Skapa ett <Link to='/signup'>här</Link>
