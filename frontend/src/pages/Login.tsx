@@ -25,15 +25,17 @@ function Login() {
       const response = await postSignin(JSON.stringify(requestBody));
 
       if (response.success) {
-        setIsLoading(false);
         console.log(response);
         navigate('/meetups');
       } else {
+        setIsLoading(false);
         alert('Felaktigt användarnamn eller lösenord.');
         console.error('Inloggning misslyckades.');
       }
     } catch (error) {
       console.error('Ett fel uppstod:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

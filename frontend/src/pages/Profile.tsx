@@ -37,6 +37,8 @@ function Profile() {
       }
     } catch (error) {
       console.error('Ett fel uppstod:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

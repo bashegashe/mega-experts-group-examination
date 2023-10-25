@@ -27,7 +27,7 @@ function Signup() {
       const response = await postSignup(JSON.stringify(requestBody));
 
       if (response.success) {
-        setIsLoading(false);
+        // setIsLoading(false);
         navigate('/login');
       } else if (response.error === 'password length must be at least 6 characters long') {
         alert('Lösenordet måste innehålla minst 6 tecken.');
@@ -36,7 +36,10 @@ function Signup() {
         console.error('Registreringen misslyckades.', response);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Ett fel uppstod:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
