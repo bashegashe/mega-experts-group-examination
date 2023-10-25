@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
 import Menu from '../components/Menu';
 
-const APIURI = 'https://b6ptukl1l9.execute-api.eu-north-1.amazonaws.com/';
+const APIURI = import.meta.env.VITE_APP_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Login() {
     if (!data.username || !data.password) return;
 
     try {
-      const url = `${APIURI}api/auth/login`;
+      const url = `${APIURI}/api/auth/login`;
       const requestBody = {
         username: data.username,
         password: data.password,
