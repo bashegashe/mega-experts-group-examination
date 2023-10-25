@@ -1,4 +1,5 @@
 import { API_URI } from '../utils/constants';
+console.log(API_URI);
 
 const createRequest = (method: string, body?: string) => {
   return {
