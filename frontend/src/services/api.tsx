@@ -1,5 +1,4 @@
 import { API_URI } from '../utils/constants';
-console.log(API_URI);
 
 const createRequest = (method: string, body?: string) => {
   return {
@@ -7,7 +6,7 @@ const createRequest = (method: string, body?: string) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    // credentials: 'include',
+    credentials: 'include',
     ...(body ? { body: body } : {}),
   };
 };
