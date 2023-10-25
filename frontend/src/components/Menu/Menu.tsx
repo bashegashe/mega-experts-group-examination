@@ -1,7 +1,10 @@
+import './menu.css';
 import { useNavigate } from 'react-router-dom';
 
-const homeIcon = `https://bashegashe.github.io/mega-experts-group-examination/home.svg`;
-const profileIcon = `https://bashegashe.github.io/mega-experts-group-examination/profile.svg`;
+import { BASE_URI } from '../../utils/constants';
+
+const homeIcon = `${BASE_URI}home.svg`;
+const profileIcon = `${BASE_URI}profile.svg`;
 
 function Menu() {
   const navigate = useNavigate();
