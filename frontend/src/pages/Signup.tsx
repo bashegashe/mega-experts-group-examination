@@ -6,10 +6,12 @@ import AuthForm from '../components/AuthForm/AuthForm';
 import { postSignup } from '../services/api';
 import { FormData } from '../types/types';
 
+// const APIURI = import.meta.env.VITE_APP_API_URL;
+
 function Signup() {
   const navigate = useNavigate();
 
-  const handleLogin = async (formData: FormData) => {
+  const handleSignup = async (formData: FormData) => {
     if (!formData.username || !formData.password) return;
 
     try {
@@ -36,7 +38,7 @@ function Signup() {
     <main className='main'>
       <Logo />
       <h3 className='main__title'>Skapa en användare</h3>
-      <AuthForm onSubmit={handleLogin} initialValues={{ username: '', password: '' }} />
+      <AuthForm onSubmit={handleSignup} initialValues={{ username: '', password: '' }} />
       <p className='auth__changeview'>
         Har du redan ett konto? Logga in <Link to='/login'>här</Link>
       </p>
