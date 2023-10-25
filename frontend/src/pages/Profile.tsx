@@ -62,7 +62,7 @@ function Profile() {
           />
         ))
       ) : (
-        <p>Inga kommande meetups bokade</p>
+        <p className='main__text'>Inga kommande meetups bokade</p>
       )}
       <h4 className='main__subtitle'>Tidigare Meetups</h4>
 

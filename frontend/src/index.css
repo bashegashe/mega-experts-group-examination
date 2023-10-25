@@ -31,6 +31,10 @@ body {
   margin-bottom: 1rem;
 }
 
+.main__text {
+  margin-bottom: 1rem;
+}
+
 .input__large {
   height: 40px;
   width: 300px;
