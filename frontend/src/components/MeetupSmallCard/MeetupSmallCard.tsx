@@ -33,11 +33,11 @@ function MeetupSmallCard({
           Avboka
         </button>
       )}
-      <a className='card__link'>
+      <button className='card__link'>
         <Link to={`/meetup/${id}`} className='card__link'>
           <img src={arrowSvg} alt='Link to meetup details.' />
         </Link>
-      </a>
+      </button>
     </article>
   );
 }

@@ -15,6 +15,7 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(false);
 
   const getAllMeetups = async () => {
+    setIsLoading(true);
     const data = await getMeetupsProfile();
     if (data.success === true) {
       setOldMeetups(data.data.oldMeetups);

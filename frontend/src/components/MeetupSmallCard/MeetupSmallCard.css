@@ -35,4 +35,6 @@
 
 .card__link {
   cursor: pointer;
+  border: none;
+  background-color: rgba(255, 0, 0, 0);
 }

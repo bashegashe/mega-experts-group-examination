@@ -1,7 +1,7 @@
-import React from 'react';
+import './loader.css';
 
 function Loader() {
-  return <p className='loader'>Loading...</p>;
+  return <p className='loader'>Laddar...</p>;
 }
 
 export default Loader;
