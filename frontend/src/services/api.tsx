@@ -37,6 +37,6 @@ const callApi = async (endpoint: string, method: string, body?: string, param?: 
   }
 };
 
-export const getMeetupsProfile = () => callApi('profile/', 'GET');
+export const getMeetupsProfile = () => callApi('profile', 'GET');
 export const postSignin = (body: string) => callApi('auth/login', 'POST', body);
 export const postSignup = (body: string) => callApi('auth/register', 'POST', body);
