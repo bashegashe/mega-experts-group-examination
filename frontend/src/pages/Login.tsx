@@ -28,7 +28,6 @@ function Login() {
         console.log(response);
         navigate('/meetups');
       } else {
-        setIsLoading(false);
         alert('Felaktigt användarnamn eller lösenord.');
         console.error('Inloggning misslyckades.');
       }

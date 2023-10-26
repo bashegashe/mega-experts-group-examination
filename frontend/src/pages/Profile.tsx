@@ -15,7 +15,6 @@ function Profile() {
   const [isLoading, setIsLoading] = useState(false);
 
   const getAllMeetups = async () => {
-    setIsLoading(true);
     const data = await getMeetupsProfile();
     if (data.success === true) {
       setOldMeetups(data.data.oldMeetups);
@@ -25,6 +24,7 @@ function Profile() {
   };
 
   const handleDeleteBooking = async (id: string) => {
+    setIsLoading(true);
     try {
       const response = await deleteBooking(id);
 
@@ -43,6 +43,7 @@ function Profile() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getAllMeetups();
   }, []);
 
@@ -50,7 +51,6 @@ function Profile() {
     <main className='main'>
       <h3 className='main__title'>Min Profil</h3>
       <h4 className='main__subtitle'>Kommande Meetups</h4>
-      {isLoading && <Loader />}
 
       {upcomingMeetups.length > 0 ? (
         upcomingMeetups.map((meetup: Meetup) => (
@@ -67,6 +67,7 @@ function Profile() {
       ) : (
         <p className='main__text'>Inga kommande meetups bokade</p>
       )}
+      {isLoading && <Loader />}
       <h4 className='main__subtitle'>Tidigare Meetups</h4>
 
       {oldMeetups.length > 0 ? (
