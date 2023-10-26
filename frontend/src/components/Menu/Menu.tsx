@@ -6,8 +6,7 @@ import { signOut } from '../../utils/signOut';
 
 const homeIcon = `${BASE_URI}home.svg`;
 const profileIcon = `${BASE_URI}profile.svg`;
-const logoutIcon = `./logout.svg`;
-// const logoutIcon = `${BASE_URI}logout.svg`;
+const logoutIcon = `${BASE_URI}logout.svg`;
 
 function Menu() {
   const navigate = useNavigate();

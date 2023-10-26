@@ -92,6 +92,7 @@ function Profile() {
       ) : (
         <p>Inga tidigare meetups.</p>
       )}
+      {isLoading && <Loader />}
 
       <Menu />
     </main>
