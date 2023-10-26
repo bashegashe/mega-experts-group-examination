@@ -1,5 +1,8 @@
 import './menu.css';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
+import Loader from '../Loader/Loader';
 
 import { BASE_URI } from '../../utils/constants';
 import { signOut } from '../../utils/signOut';
@@ -10,6 +13,7 @@ const logoutIcon = `${BASE_URI}logout.svg`;
 
 function Menu() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -19,10 +23,16 @@ function Menu() {
     if (link) navigate(link);
   };
 
-  const handleSignOut = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleSignOut = async (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    signOut('token');
-    console.log('utloggad');
+    setIsLoading(true);
+
+    const response = await signOut();
+
+    if (response) {
+      setIsLoading(true);
+      navigate('/login');
+    }
   };
 
   return (
@@ -34,7 +44,11 @@ function Menu() {
         <img src={profileIcon} alt='Profile Link' />
       </a>
       <a className='nav__link' onClick={handleSignOut} data-link='/'>
-        <img className='nav__img' src={logoutIcon} alt='Logout Link' />
+        {isLoading ? (
+          <Loader className='loader--small' />
+        ) : (
+          <img className='nav__img' src={logoutIcon} alt='Logout Link' />
+        )}
       </a>
     </nav>
   );

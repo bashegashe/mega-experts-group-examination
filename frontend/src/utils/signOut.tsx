@@ -1,10 +1,22 @@
-import { API_URI } from './constants';
+import { deleteSignOut } from '../services/api';
 
-export function signOut(name: string) {
-  const withoutHttp = API_URI.replace('https://', '');
-  const modifiedUrl = withoutHttp.replace('/api/', '');
-  alert('Fungerar inte än.');
+export const signOut = async () => {
+  // const navigate = useNavigate();
+  try {
+    const response = await deleteSignOut();
 
-  document.cookie = name + `=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=.${modifiedUrl}; path=/;`;
-  // window.location.reload();
-}
+    if (response.success) {
+      // setIsLoading(false);
+      return true;
+      // navigate('/login');
+    } else {
+      alert('Något gick fel vid utloggning.');
+      console.error('Utloggningen misslyckades.', response);
+    }
+  } catch (error) {
+    // setIsLoading(false);
+    console.error('Ett fel uppstod:', error);
+  } finally {
+    // setIsLoading(false);
+  }
+};

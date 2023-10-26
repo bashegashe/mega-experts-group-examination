@@ -13,3 +13,7 @@ export interface Meetup {
   title: string;
   description: string;
 }
+
+export interface LoaderProps {
+  className?: string;
+}

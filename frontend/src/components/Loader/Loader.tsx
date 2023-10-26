@@ -1,9 +1,12 @@
 import './loader.css';
 
-function Loader() {
-  // return <p className='loader'>Laddar...</p>;
+import { LoaderProps } from '../../types/types';
+
+function Loader({ className }: LoaderProps) {
+  const containerClassName = className ? `loader__container ${className}` : 'loader__container';
+
   return (
-    <div className='loader__container'>
+    <div className={containerClassName}>
       <span className='loader'></span>
     </div>
   );
