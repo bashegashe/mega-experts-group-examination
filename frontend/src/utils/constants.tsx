@@ -8,7 +8,7 @@ const getAPIURI = () => {
   const params = new URLSearchParams(search);
   const api_uri = import.meta.env.VITE_APP_API_URL || params.get('api_url');
   cachedAPIURI = api_uri;
-  return api_uri
-} 
+  return api_uri;
+};
 
 export const API_URI = getAPIURI();

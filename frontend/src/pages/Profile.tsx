@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Menu from '.././components/Menu/Menu';
 import MeetupSmallCard from '../components/MeetupSmallCard/MeetupSmallCard';
 import Loader from '../components/Loader/Loader';
 
 import { deleteBooking, getMeetupsProfile } from '../services/api';
-import { useEffect, useState } from 'react';
 
 import { BASE_URI } from '../utils/constants';
 import { Meetup } from '../types/types';
@@ -13,6 +15,7 @@ function Profile() {
   const [oldMeetups, setOldMeetups] = useState([]);
   const [upcomingMeetups, setUpcomingMeetups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getAllMeetups = async () => {
     const data = await getMeetupsProfile();
@@ -20,6 +23,10 @@ function Profile() {
       setOldMeetups(data.data.oldMeetups);
       setUpcomingMeetups(data.data.upcomingMeetups);
       setIsLoading(false);
+    }
+    if (data.error === 'Token in cookie is missing') {
+      setIsLoading(false);
+      navigate('/login');
     }
   };
 
