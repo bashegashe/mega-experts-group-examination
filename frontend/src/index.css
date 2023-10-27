@@ -62,7 +62,7 @@ body {
 }
 
 .button__filter {
-  background-image: url('./filter.svg');
+  background-image: url('https://bashegashe.github.io/mega-experts-group-examination/meetups/filter.svg');
   background-size: contain;
   background-repeat: no-repeat;
   width: 20px;
