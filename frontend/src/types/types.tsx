@@ -14,6 +14,22 @@ export interface Meetup {
   description: string;
 }
 
+export interface MeetupFullDetail {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  host: string;
+  location: string;
+  rating: number;
+}
+
 export interface LoaderProps {
   className?: string;
+}
+
+export interface SearchProps {
+  query: string;
+  setQuery: (query: string) => void;
 }
