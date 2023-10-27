@@ -10,10 +10,10 @@ import Filter from '../components/Filter/Filter';
 import { getAllMeetups } from '../services/api';
 import { MeetupFullDetail } from '../types/types';
 
-// import { BASE_URI } from '../utils/constants';
+import { BASE_URI } from '../utils/constants';
 
 // const filterIcon = `./filter.svg`;
-// // const filterIcon = `${BASE_URI}filter.svg`;
+const filterIcon1 = `${BASE_URI}filter.svg`;
 
 function Meetups() {
   const [meetups, setMeetups] = useState<MeetupFullDetail[]>([]);
