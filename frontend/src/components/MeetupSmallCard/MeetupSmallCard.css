@@ -2,11 +2,39 @@
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   padding: 0.4rem 0;
+  margin-bottom: 1rem;
   display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
 }
 
 .card__img {
   height: 62px;
   width: 62px;
   border-radius: 1rem;
+  margin-right: 0.7rem;
+}
+
+.card__details {
+  width: 120px;
+  margin-right: auto;
+}
+
+.card__title {
+  font-weight: 700;
+}
+
+.card__subtitle {
+  color: #939393;
+}
+
+.button__cancel--margin {
+  margin-right: 0.2rem;
+  /* margin-left: auto; */
+}
+
+.card__link {
+  cursor: pointer;
+  border: none;
+  background-color: rgba(255, 0, 0, 0);
 }

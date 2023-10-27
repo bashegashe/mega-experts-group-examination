@@ -12,11 +12,13 @@ p {
 
 body {
   background-color: lightgrey;
+  overflow-y: auto;
 }
 
 .main {
   max-width: 330px;
-  height: 100vh;
+  min-height: 100vh;
+
   padding: 1rem;
   margin: 0 auto;
   background-color: #fff;
@@ -31,6 +33,10 @@ body {
   margin-bottom: 1rem;
 }
 
+.main__text {
+  margin-bottom: 1rem;
+}
+
 .input__large {
   height: 40px;
   width: 300px;
@@ -39,6 +45,10 @@ body {
   color: #7f7f7f;
   border: none;
   border-radius: 100px;
+}
+
+.input__large--margin {
+  margin-bottom: 1rem;
 }
 
 .button__large {
@@ -51,10 +61,56 @@ body {
   cursor: pointer;
 }
 
+.button__filter {
+  background-image: url('./filter.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  border: none;
+  margin-top: -35px;
+  margin-bottom: 1rem;
+  background-color: #fff;
+}
+
+.button__remove {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0.2rem 0.4rem;
+  font-size: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.button__filters {
+  color: #fff;
+  font-size: 10px;
+  margin-bottom: 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+}
+
+.button__filter--green {
+  background-color: #31a043;
+}
+
+.button__filter--turquoise {
+  background-color: #2bb3a3;
+}
+
+.hide-bg {
+  background-image: none;
+}
+
 .button__cancel {
+  font-size: 12px;
+  cursor: pointer;
   border: none;
   height: 25px;
-  width: 60px;
+  width: 50px;
   border-radius: 5px;
   background-color: #ff0000;
   color: #f2f2f2;

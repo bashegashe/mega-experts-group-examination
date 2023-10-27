@@ -1,0 +1,36 @@
+.card__container {
+  display: flex;
+}
+
+/* .card__details {
+  display: flex;
+  flex-direction: column;
+} */
+
+.card__text {
+  width: 220px;
+  display: flex;
+  flex-direction: row;
+}
+
+.card__large {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.card__img--large {
+  height: 176px;
+  width: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  /* margin-bottom: 0.5rem; */
+}
+
+.card__large--link {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(255, 0, 0, 0);
+}

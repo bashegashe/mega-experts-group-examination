@@ -69,6 +69,10 @@ functions:
     handler: src/functions/Meetup/meetupUnregistration.handler
     events:
       - httpApi: 'DELETE /api/meetups/{id}'
+  logout:
+    handler: src/functions/User/logout.handler
+    events:
+      - httpApi: 'DELETE /api/auth/logout'
 
 resources:
   Resources:

@@ -1,5 +1,7 @@
 import { sendResponse } from '@/responses';
 
+const COOKIE_FLAGS = 'Path=/; HttpOnly; Secure; SameSite=None;';
+
 export function getCookie(cookies, cookieName) {
   let cookieString;
   if (Array.isArray(cookies)) {
@@ -11,6 +13,12 @@ export function getCookie(cookies, cookieName) {
 
 export function sendCookie(token) {
   return sendResponse(200, undefined, {
-    'Set-Cookie': `token=${token}; Path=/; HttpOnly; Secure; SameSite=None;`,
+    'Set-Cookie': `token=${token}; ${COOKIE_FLAGS}`,
+  });
+}
+
+export function sendDeleteCookie(cookieName = 'token') {
+  return sendResponse(200, undefined, {
+    'Set-Cookie': `${cookieName}=; ${COOKIE_FLAGS} Expires=Thu, 01 Jan 1970 00:00:00 GMT;`,
   });
 }
