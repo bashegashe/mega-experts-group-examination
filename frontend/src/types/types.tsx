@@ -33,3 +33,8 @@ export interface SearchProps {
   query: string;
   setQuery: (query: string) => void;
 }
+
+export interface Review {
+  rating: number;
+  review?: string;
+}

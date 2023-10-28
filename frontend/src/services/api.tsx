@@ -39,7 +39,9 @@ const callApi = async (endpoint: string, method: string, body?: string, param?: 
 
 export const getMeetupsProfile = () => callApi('profile', 'GET');
 export const getAllMeetups = () => callApi('meetups', 'GET');
+export const getMeetup = (id: string) => callApi(`meetups/${id}`, 'GET');
 export const postSignin = (body: string) => callApi('auth/login', 'POST', body);
 export const deleteSignOut = () => callApi('auth/logout', 'DELETE');
 export const postSignup = (body: string) => callApi('auth/register', 'POST', body);
 export const deleteBooking = (id: string) => callApi(`meetups/${id}`, 'DELETE');
+export const postReview = (id: string, body: string) => callApi(`meetups/review/${id}`, 'POST', body);

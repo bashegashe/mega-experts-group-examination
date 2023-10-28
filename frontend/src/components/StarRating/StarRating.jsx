@@ -13,22 +13,22 @@ const starContainerStyle = {
 };
 
 StarRating.propTypes = {
-  // maxRating: PropTypes.number.isRequired,
   maxRating: PropTypes.number,
   defaultRating: PropTypes.number,
   size: PropTypes.number,
   color: PropTypes.string,
   messages: PropTypes.array,
-  // onSetRating: PropTypes.func
+  onChange: PropTypes.func,
 };
 
-function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating = 0, messages = [] }) {
+function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating = 0, messages = [], onChange }) {
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
     // onSetRating(rating)
+    if (onChange) onChange(rating);
   }
 
   const textStyle = {
