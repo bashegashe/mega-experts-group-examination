@@ -27,6 +27,10 @@ const addReview = async (event) => {
     throw new ApiError(400, 'You have already reviewed this meetup');
   }
 
+  if (new Date() < new Date(meetup.date)) {
+    throw new ApiError(400, 'You cannot review a meetup that has not happened yet');
+  }
+
   // if (meetup.attendees.length === meetup.reviews.length) {
   //   throw new ApiError(400, 'All attendees have already reviewed this meetup');
   // }
