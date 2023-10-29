@@ -1,41 +1,31 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-import Logo from '../components/Logo';
-import Menu from '../components/Menu';
+import Logo from '../components/Logo/Header';
+import Menu from '../components/Menu/Menu';
+import AuthForm from '../components/AuthForm/AuthForm';
 
-const APIURI = 'https://b6ptukl1l9.execute-api.eu-north-1.amazonaws.com/';
+import { postSignin } from '../services/api';
+import { FormData } from '../types/types';
+import Loader from '../components/Loader/Loader';
 
 function Login() {
   const navigate = useNavigate();
-  const [data, setData] = useState({ username: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!data.username || !data.password) return;
-
+  const handleLogin = async (formData: FormData) => {
+    if (!formData.username || !formData.password) return;
+    setIsLoading(true);
     try {
-      const url = `${APIURI}api/auth/login`;
-      const requestBody = {
-        username: data.username,
-        password: data.password,
+      const requestBody: FormData = {
+        username: formData.username,
+        password: formData.password,
       };
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await postSignin(JSON.stringify(requestBody));
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
+      if (response.success) {
+        console.log(response);
         navigate('/meetups');
       } else {
         alert('Felaktigt användarnamn eller lösenord.');
@@ -43,6 +33,8 @@ function Login() {
       }
     } catch (error) {
       console.error('Ett fel uppstod:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -50,28 +42,9 @@ function Login() {
     <main className='main'>
       <Logo />
       <h3 className='main__title'>Logga in</h3>
-      <form className='auth__form' onSubmit={handleSubmit}>
-        <input
-          className='input__large'
-          name='username'
-          type='text'
-          placeholder='Användarnamn'
-          value={data.username}
-          onChange={handleChange}
-        />
-        <input
-          className='input__large'
-          name='password'
-          type='password'
-          placeholder='Lösenord'
-          value={data.password}
-          onChange={handleChange}
-        />
+      <AuthForm onSubmit={handleLogin} initialValues={{ username: '', password: '' }} />
+      {isLoading && <Loader />}
 
-        <button className='button__large' type='submit'>
-          Logga in
-        </button>
-      </form>
       <p className='auth__changeview'>
         Inget konto än? Skapa ett <Link to='/signup'>här</Link>
       </p>

@@ -1,0 +1,26 @@
+.header {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.header__logo {
+  height: 75px;
+  margin-right: 0.5rem;
+}
+
+.header__title {
+  font-family: 'Glegoo';
+  text-transform: uppercase;
+}
+
+.header__title,
+span {
+  letter-spacing: 0.1rem;
+}
+
+.header__title span {
+  text-decoration: underline;
+  font-family: 'Glegoo';
+}

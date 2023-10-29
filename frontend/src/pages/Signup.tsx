@@ -1,75 +1,53 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-import Logo from '../components/Logo';
+import Logo from '../components/Logo/Header';
+import AuthForm from '../components/AuthForm/AuthForm';
 
-const APIURI = 'https://b6ptukl1l9.execute-api.eu-north-1.amazonaws.com/';
+import { postSignup } from '../services/api';
+import { FormData } from '../types/types';
+import Loader from '../components/Loader/Loader';
+
+// const APIURI = import.meta.env.VITE_APP_API_URL;
 
 function Signup() {
   const navigate = useNavigate();
-  const [data, setData] = useState({ username: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!data.username || !data.password) return;
+  const handleSignup = async (formData: FormData) => {
+    if (!formData.username || !formData.password) return;
+    setIsLoading(true);
 
     try {
-      const url = `${APIURI}api/auth/register`;
-      const requestBody = {
-        username: data.username,
-        password: data.password,
+      const requestBody: FormData = {
+        username: formData.username,
+        password: formData.password,
       };
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const response = await postSignup(JSON.stringify(requestBody));
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
+      if (response.success) {
+        // setIsLoading(false);
         navigate('/login');
+      } else if (response.error === 'password length must be at least 6 characters long') {
+        alert('Lösenordet måste innehålla minst 6 tecken.');
       } else {
         alert('Något gick fel vid registeringen.');
-        console.error('Registreringen misslyckades.');
+        console.error('Registreringen misslyckades.', response);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Ett fel uppstod:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <main className='main'>
       <Logo />
       <h3 className='main__title'>Skapa en användare</h3>
-      <form className='auth__form' onSubmit={handleSubmit}>
-        <input
-          className='input__large'
-          name='username'
-          type='text'
-          placeholder='Användarnamn'
-          value={data.username}
-          onChange={handleChange}
-        />
-        <input
-          className='input__large'
-          name='password'
-          type='password'
-          placeholder='Lösenord'
-          value={data.password}
-          onChange={handleChange}
-        />
-
-        <button className='button__large' type='submit'>
-          Logga in
-        </button>
-      </form>
+      <AuthForm onSubmit={handleSignup} initialValues={{ username: '', password: '' }} />
+      {isLoading && <Loader />}
       <p className='auth__changeview'>
         Har du redan ett konto? Logga in <Link to='/login'>här</Link>
       </p>
