@@ -6,6 +6,7 @@ import { MeetupFullDetail } from "../types/types";
 import Loader from "../components/Loader/Loader";
 import MeetupLargeCard from "../components/MeetupLargeCard/MeetupLargeCard";
 import ReviewForm from "../components/ReviewForm/ReviewForm";
+import ReviewList from "../components/ReviewList/ReviewList";
 
 export default function Reviews() {
   const { meetupId } = useParams();
@@ -41,7 +42,6 @@ export default function Reviews() {
         <p className='main__text'>Meetup kunde inte hittas.</p>
       </main>
     );
-
   }
 
   return (
@@ -49,7 +49,9 @@ export default function Reviews() {
       <h3 className='main__title'>Recensioner</h3>
       <Menu />
       {meetup && <MeetupLargeCard {...meetup} />}
-      <hr style={{marginBottom: '1.3rem'}} />
+      {!isLoading && <hr style={{marginBottom: '1.3rem', color: '#dcdcdc' }}/>}
+      {meetup && <ReviewList reviews={meetup.reviews} /> }
+      {!isLoading && <hr style={{marginBottom: '1.3rem'}} />}
       {meetup && <ReviewForm meetupId={meetup.id} />}
       {isLoading && <Loader />}
     </main>

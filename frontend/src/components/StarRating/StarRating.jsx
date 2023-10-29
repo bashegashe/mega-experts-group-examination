@@ -19,9 +19,10 @@ StarRating.propTypes = {
   color: PropTypes.string,
   messages: PropTypes.array,
   onChange: PropTypes.func,
+  viewOnly: PropTypes.bool,
 };
 
-function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating = 0, messages = [], onChange }) {
+function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating = 0, messages = [], onChange, viewOnly = false }) {
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
@@ -44,10 +45,10 @@ function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating
         {Array.from({ length: maxRating }, (_, index) => (
           <StarItem
             key={index}
-            onRate={() => handleRating(index + 1)}
+            onRate={() => !viewOnly && handleRating(index + 1)}
             full={rating ? rating >= index + 1 : rating >= index + 1}
-            onHoverIn={() => setTempRating(index + 1)}
-            onHoverOut={() => setTempRating(0)}
+            onHoverIn={() => !viewOnly && setTempRating(index + 1)}
+            onHoverOut={() => !viewOnly && setTempRating(0)}
             color={color}
             size={size}
           />
