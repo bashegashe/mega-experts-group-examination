@@ -24,7 +24,11 @@ async function getReviews(meetup) {
     },
   }).promise();
 
-  return reviews.Items.map(({ userId, review, rating }) => ({ userId, review, rating }));
+  return reviews.Items.map(({
+    userId, review, rating, author,
+  }) => ({
+    userId, review, rating, author,
+  }));
 }
 
 export async function getMeetups() {
@@ -98,7 +102,7 @@ export async function meetupRegistration(meetup, userId) {
   }
 }
 
-export async function addReview(meetupId, review, rating, userId) {
+export async function addReview(meetupId, review, rating, { id: userId, username: author }) {
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {
@@ -107,6 +111,7 @@ export async function addReview(meetupId, review, rating, userId) {
       review,
       rating,
       userId,
+      author,
     },
   };
 

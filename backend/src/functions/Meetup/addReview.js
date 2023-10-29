@@ -35,7 +35,7 @@ const addReview = async (event) => {
   //   throw new ApiError(400, 'All attendees have already reviewed this meetup');
   // }
 
-  await Models.Meetup.addReview(id, review, rating, event.user.id);
+  await Models.Meetup.addReview(id, review, rating, event.user);
 
   return sendResponse(200);
 };
