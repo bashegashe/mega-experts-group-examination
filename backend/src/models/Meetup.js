@@ -24,7 +24,7 @@ async function getReviews(meetup) {
     },
   }).promise();
 
-  return reviews.Items.map((item) => item.userId);
+  return reviews.Items.map(({ userId, review, rating }) => ({ userId, review, rating }));
 }
 
 export async function getMeetups() {
