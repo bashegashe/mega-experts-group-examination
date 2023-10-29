@@ -55,7 +55,7 @@ function Meetups() {
       currentMeetups = [...meetups];
     }
     console.log('Current', currentMeetups);
-    let filteredMeetupIds = new Set();
+    const filteredMeetupIds = new Set();
 
     // Loopa igenom varje filter och filtrera meetups med "eller" (OR) logik
     currentFilters.forEach((filter) => {
@@ -102,7 +102,7 @@ function Meetups() {
 
       setIsLoading(false);
     }
-    if (response.error === 'Token in cookie is missing') {
+    if (response.error === 'Token in cookie is missing' || response.error === 'jwt expired') {
       setIsLoading(false);
       navigate('/login');
     }

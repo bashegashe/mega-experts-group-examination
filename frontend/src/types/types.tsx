@@ -23,6 +23,7 @@ export interface MeetupFullDetail {
   host: string;
   location: string;
   rating: number;
+  reviews?: BackendReview[];
 }
 
 export interface LoaderProps {
@@ -32,4 +33,14 @@ export interface LoaderProps {
 export interface SearchProps {
   query: string;
   setQuery: (query: string) => void;
+}
+
+export interface Review {
+  rating: number;
+  review?: string;
+}
+
+export interface BackendReview extends Review {
+  userId: string;
+  author: string;
 }
