@@ -23,7 +23,7 @@ const addReview = async (event) => {
     throw new ApiError(400, 'You cannot review this meetup');
   }
 
-  if (meetup.reviews.includes(event.user.id)) {
+  if (meetup.reviews.find((r) => r.userId === event.user.id)) {
     throw new ApiError(400, 'You have already reviewed this meetup');
   }
 
