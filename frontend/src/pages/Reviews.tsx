@@ -22,7 +22,7 @@ export default function Reviews() {
         if (response.success === true) {
           setMeetup(response.data.meetup);
         }
-        if (response.error === 'Token in cookie is missing') {
+        if (response.error === 'Token in cookie is missing' || response.error === 'jwt expired') {
           navigate('/login');
         }
 
