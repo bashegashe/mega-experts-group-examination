@@ -24,7 +24,7 @@ function Profile() {
       setUpcomingMeetups(data.data.upcomingMeetups);
       setIsLoading(false);
     }
-    if (data.error === 'Token in cookie is missing') {
+    if (data.error === 'Token in cookie is missing' || data.error === 'jwt expired') {
       setIsLoading(false);
       navigate('/login');
     }

@@ -23,6 +23,7 @@ export interface MeetupFullDetail {
   host: string;
   location: string;
   rating: number;
+  reviews?: BackendReview[];
 }
 
 export interface LoaderProps {
@@ -33,3 +34,33 @@ export interface SearchProps {
   query: string;
   setQuery: (query: string) => void;
 }
+
+export interface Review {
+  rating: number;
+  review?: string;
+}
+
+export interface BackendReview extends Review {
+  userId: string;
+  author: string;
+}
+
+export interface FilterProps {
+  meetups: MeetupFullDetail[];
+  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  data: string;
+  filters: { [key: string]: string }[];
+}
+
+export interface FilterButtonProps {
+  data: string;
+  className: string;
+  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  target: string;
+  filters: { [key: string]: string }[];
+}
+
+export type SortByDateFormProps = {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, dateRange: { start: string; end: string }) => void;
+  resetState: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};

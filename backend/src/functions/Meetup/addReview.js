@@ -23,15 +23,19 @@ const addReview = async (event) => {
     throw new ApiError(400, 'You cannot review this meetup');
   }
 
-  if (meetup.reviews.includes(event.user.id)) {
+  if (meetup.reviews.find((r) => r.userId === event.user.id)) {
     throw new ApiError(400, 'You have already reviewed this meetup');
+  }
+
+  if (new Date() < new Date(meetup.date)) {
+    throw new ApiError(400, 'You cannot review a meetup that has not happened yet');
   }
 
   // if (meetup.attendees.length === meetup.reviews.length) {
   //   throw new ApiError(400, 'All attendees have already reviewed this meetup');
   // }
 
-  await Models.Meetup.addReview(id, review, rating, event.user.id);
+  await Models.Meetup.addReview(id, review, rating, event.user);
 
   return sendResponse(200);
 };
