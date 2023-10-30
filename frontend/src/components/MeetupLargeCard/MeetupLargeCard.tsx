@@ -54,7 +54,7 @@ function MeetupLargeCard({ title, host, location, id, date, rating, category }: 
           />
         </section>
         <button className='card__large--link'>
-          <Link to={`/meetup/${id}`} className='card__link'>
+          <Link to={`/reviews/${id}`} className='card__link'>
             <img src={arrowSvg} alt='Link to meetup details.' />
           </Link>
         </button>

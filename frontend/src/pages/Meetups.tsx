@@ -10,51 +10,44 @@ import Filter from '../components/Filter/Filter';
 import { getAllMeetups } from '../services/api';
 import { MeetupFullDetail } from '../types/types';
 
-import { BASE_URI } from '../utils/constants';
-
-// const filterIcon = `./filter.svg`;
-const filterIcon1 = `${BASE_URI}filter.svg`;
-
 function Meetups() {
   const [meetups, setMeetups] = useState<MeetupFullDetail[]>([]);
   const [query, setQuery] = useState('');
   const [queriedMeetups, setQueriedMeetups] = useState<MeetupFullDetail[]>([]);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState<{ [key: string]: string }[]>([]);
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleResetFilters = (event) => {
+  const handleResetFilters = (event: React.MouseEvent) => {
     event.preventDefault();
     setFilters([]);
     setFilteredMeetups([]);
-    console.log(filters);
   };
 
-  const handleFilterChange = (event, data) => {
+  const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
     event.preventDefault();
     const value = data;
-    const key = event.target.value;
+    const key = event.currentTarget.value;
 
     // Skapa ett nytt filterobjekt
     const newFilter = { [key]: value };
 
     // Skapa en kopia av befintliga filter och lägg till de nya filtret
     const currentFilters = [...filters, newFilter];
-    console.log('filter', currentFilters);
 
     // Uppdatera filtertillståndet med de nya filtren
     setFilters(currentFilters);
 
     // Skapa en kopia av alla meetups för att behålla originaldata
-    let currentMeetups = [];
-    if (queriedMeetups) {
+    let currentMeetups: MeetupFullDetail[] = [];
+
+    if (queriedMeetups.length > 0) {
       currentMeetups = [...queriedMeetups];
     } else {
       currentMeetups = [...meetups];
     }
-    console.log('Current', currentMeetups);
     const filteredMeetupIds = new Set();
 
     // Loopa igenom varje filter och filtrera meetups med "eller" (OR) logik
@@ -76,22 +69,8 @@ function Meetups() {
     // Använd de unika ID:erna för att hämta de matchande meetups
     const filteredMeetups = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
 
-    // let filteredMeetups = [];
-
-    // // Loopa igenom varje filter och filtrera meetups med "eller" (OR) logik
-    // currentFilters.forEach((filter) => {
-    //   const value = Object.values(filter)[0];
-    //   const newFilteredMeetups = currentMeetups.filter((meetup) => {
-    //     return meetup.category === value || meetup.location === value;
-    //   });
-
-    //   // Lägg till de nya filtrerade meetups till den totala listan
-    //   filteredMeetups.push(...newFilteredMeetups);
-    // });
-
     // Uppdatera meetups med de filtrerade värdena
     setFilteredMeetups(filteredMeetups);
-    console.log('filtrerade meetups', filteredMeetups);
   };
 
   const fetchMeetups = async () => {
@@ -120,7 +99,7 @@ function Meetups() {
   useEffect(() => {
     const queried = queryMeetups(meetups, query);
     setQueriedMeetups(queried);
-  }, [meetups, query]);
+  }, [query]);
 
   return (
     <main className='main'>
@@ -131,13 +110,23 @@ function Meetups() {
           className={`button__filter ${isOpen ? 'hide-bg' : ''}`}
           onClick={() => setIsOpen((open) => !open)}
         >
-          {isOpen ? '-' : ''}
+          {isOpen ? 'X' : ''}
         </button>
       </div>
       {isOpen && (
         <>
-          <Filter meetups={meetups} data='category' handleFilterChange={handleFilterChange} />
-          <Filter meetups={meetups} data='location' handleFilterChange={handleFilterChange} />
+          <Filter
+            meetups={meetups}
+            data='category'
+            handleFilterChange={handleFilterChange}
+            filters={filters}
+          />
+          <Filter
+            meetups={meetups}
+            data='location'
+            handleFilterChange={handleFilterChange}
+            filters={filters}
+          />
           <button className='button__remove' onClick={handleResetFilters}>
             Rensa filter
           </button>
