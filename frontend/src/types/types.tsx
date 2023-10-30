@@ -56,6 +56,6 @@ export interface FilterButtonProps {
   data: string;
   className: string;
   handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
-  target: string; // Lägg till target-egenskapen här
+  target: string;
   filters: { [key: string]: string }[];
 }
