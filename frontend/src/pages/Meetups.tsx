@@ -9,6 +9,7 @@ import Filter from '../components/Filter/Filter';
 
 import { getAllMeetups } from '../services/api';
 import { MeetupFullDetail } from '../types/types';
+import SortByDateForm from '../components/SortByDateForm/SortByDateForm';
 
 function Meetups() {
   const [meetups, setMeetups] = useState<MeetupFullDetail[]>([]);
@@ -18,12 +19,19 @@ function Meetups() {
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [resetDates, setResetDates] = useState(false);
   const navigate = useNavigate();
 
   const handleResetFilters = (event: React.MouseEvent) => {
     event.preventDefault();
+    // Ta bort datum filret också!!
+    setResetDates(true);
     setFilters([]);
     setFilteredMeetups([]);
+
+    if (resetDates) {
+      setResetDates(false);
+    }
   };
 
   const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
@@ -62,6 +70,28 @@ function Meetups() {
         filteredMeetupIds.add(meetup.id);
       });
     });
+
+    // Lägg till filtrering efter datum om både start- och slutdatum är inställda
+
+    if (data.start !== '' && data.end !== '') {
+      const startDateForm = new Date(data.start);
+      const endDateForm = new Date(data.end);
+
+      // Ställ in tiden för slutdatum till 23:59:59
+      endDateForm.setHours(23, 59, 59);
+
+      const newFilteredMeetups = currentMeetups.filter((meetup) => {
+        const meetupDate = new Date(meetup.date);
+
+        return meetupDate >= startDateForm && meetupDate <= endDateForm;
+      });
+
+      // Lägg till de nya filtrerade meetups i set:et
+      newFilteredMeetups.forEach((meetup) => {
+        filteredMeetupIds.add(meetup.id);
+      });
+      console.log(newFilteredMeetups);
+    }
 
     // Konvertera set:et till en array av unika ID:er
     const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
@@ -127,6 +157,7 @@ function Meetups() {
             handleFilterChange={handleFilterChange}
             filters={filters}
           />
+          <SortByDateForm onSubmit={handleFilterChange} resetState={handleResetFilters} />
           <button className='button__remove' onClick={handleResetFilters}>
             Rensa filter
           </button>
