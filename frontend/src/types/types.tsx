@@ -44,3 +44,18 @@ export interface BackendReview extends Review {
   userId: string;
   author: string;
 }
+
+export interface FilterProps {
+  meetups: MeetupFullDetail[];
+  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  data: string;
+  filters: { [key: string]: string }[];
+}
+
+export interface FilterButtonProps {
+  data: string;
+  className: string;
+  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  target: string; // Lägg till target-egenskapen här
+  filters: { [key: string]: string }[];
+}

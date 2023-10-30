@@ -1,16 +1,7 @@
 import './filter.css';
 
-// import { useState } from 'react';
-
-import { MeetupFullDetail } from '../../types/types';
+import { FilterProps } from '../../types/types';
 import FilterButton from './FilterButton/FilterButton';
-
-interface FilterProps {
-  meetups: MeetupFullDetail[];
-  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
-  data: string;
-  filters: { [key: string]: string }[];
-}
 
 function Filter({ meetups, data, handleFilterChange, filters }: FilterProps) {
   let uniqueCategories: string[] = [];

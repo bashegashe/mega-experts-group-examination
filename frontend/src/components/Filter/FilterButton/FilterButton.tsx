@@ -1,10 +1,4 @@
-interface FilterButtonProps {
-  data: string;
-  className: string;
-  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
-  target: string; // Lägg till target-egenskapen här
-  filters: { [key: string]: string }[];
-}
+import { FilterButtonProps } from '../../../types/types';
 
 function FilterButton({ data, className, handleFilterChange, target, filters }: FilterButtonProps) {
   const isDataInFilters = filters.some((filter) => filter[target] === data);
