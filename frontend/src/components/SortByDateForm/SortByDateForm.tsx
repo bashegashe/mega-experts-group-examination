@@ -2,7 +2,9 @@ import './SortByDateForm.css';
 
 import { useState } from 'react';
 
-function SortByDateForm({ onSubmit, resetState }) {
+import { SortByDateFormProps } from '../../types/types';
+
+function SortByDateForm({ onSubmit, resetState }: SortByDateFormProps) {
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,7 +16,7 @@ function SortByDateForm({ onSubmit, resetState }) {
     onSubmit(event, dateRange);
   };
 
-  const handleReset = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleReset = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
     // Anropa resetState-funktionen som skickades som en egenskap
     setDateRange({ start: '', end: '' });

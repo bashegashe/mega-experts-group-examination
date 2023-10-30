@@ -59,3 +59,8 @@ export interface FilterButtonProps {
   target: string;
   filters: { [key: string]: string }[];
 }
+
+export type SortByDateFormProps = {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>, dateRange: { start: string; end: string }) => void;
+  resetState: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+};
