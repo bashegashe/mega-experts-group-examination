@@ -4,7 +4,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Meetups from './pages/Meetups';
 import Profile from './pages/Profile';
-import Reviews from './pages/Reviews';
+import Reviews from './pages/AddReview';
 
 function App() {
   return (

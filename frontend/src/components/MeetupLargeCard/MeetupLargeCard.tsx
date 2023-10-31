@@ -51,6 +51,7 @@ function MeetupLargeCard({ title, host, location, id, date, rating, category }: 
             size={20}
             maxRating={5}
             defaultRating={rating}
+            viewOnly
           />
         </section>
         <button className='card__large--link'>
