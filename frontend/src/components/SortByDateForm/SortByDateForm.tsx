@@ -18,7 +18,7 @@ function SortByDateForm({ onSubmit, resetState }: SortByDateFormProps) {
 
   const handleReset = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
-    // Anropa resetState-funktionen som skickades som en egenskap
+
     setDateRange({ start: '', end: '' });
     resetState(event);
   };

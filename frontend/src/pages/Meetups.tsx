@@ -24,7 +24,7 @@ function Meetups() {
 
   const handleResetFilters = (event: React.MouseEvent) => {
     event.preventDefault();
-    // Ta bort datum filret också!!
+    // Tar bort datum filret också!!
     setResetDates(true);
     setFilters([]);
     setFilteredMeetups([]);
@@ -34,83 +34,71 @@ function Meetups() {
     }
   };
 
-  const handleFilterChange = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
-    data: string | { start: string; end: string }
-  ) => {
+  const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
     event.preventDefault();
+    const value = data;
+    const key = event.currentTarget.value;
+    const filteredMeetupIds = new Set();
 
-    // Kontrollera om data är en sträng eller ett objekt
-    if (typeof data === 'string') {
-      // Här hanterar du fallet när data är en enkel sträng
-      const value = data;
-      const key = event.currentTarget.value;
+    // Skapa en kopia av alla meetups för att behålla originaldata
+    let currentMeetups: MeetupFullDetail[] = [];
 
-      // Skapa ett nytt filterobjekt
-      const newFilter = { [key]: value };
-
-      // Skapa en kopia av befintliga filter och lägg till de nya filtret
-      const currentFilters = [...filters, newFilter];
-
-      // Uppdatera filtertillståndet med de nya filtren
-      setFilters(currentFilters);
+    if (queriedMeetups.length > 0) {
+      currentMeetups = [...queriedMeetups];
     } else {
-      // Här hanterar du fallet när data är ett objekt med start och end
-      const { start, end } = data;
+      currentMeetups = [...meetups];
+    }
 
-      // Skapa en kopia av alla meetups för att behålla originaldata
-      let currentMeetups: MeetupFullDetail[] = [];
+    if (!key) {
+      const startDateForm = new Date(data.start);
+      const endDateForm = new Date(data.end);
 
-      if (queriedMeetups.length > 0) {
-        currentMeetups = [...queriedMeetups];
-      } else {
-        currentMeetups = [...meetups];
-      }
-      const filteredMeetupIds = new Set();
+      // Ställ in tiden för slutdatum till 23:59:59
+      endDateForm.setHours(23, 59, 59);
 
-      // Loopa igenom varje filter och filtrera meetups med "eller" (OR) logik
-      filters.forEach((filter) => {
-        const value = Object.values(filter)[0];
-        const newFilteredMeetups = currentMeetups.filter((meetup) => {
-          return meetup.category === value || meetup.location === value;
-        });
+      const newFilteredMeetups = currentMeetups.filter((meetup) => {
+        const meetupDate = new Date(meetup.date);
 
-        // Lägg till de nya filtrerade meetups i set:et
-        newFilteredMeetups.forEach((meetup) => {
-          filteredMeetupIds.add(meetup.id);
-        });
+        return meetupDate >= startDateForm && meetupDate <= endDateForm;
       });
 
-      // Lägg till filtrering efter datum om både start- och slutdatum är inställda
-      if (start !== '' && end !== '') {
-        const startDateForm = new Date(start);
-        const endDateForm = new Date(end);
-
-        // Ställ in tiden för slutdatum till 23:59:59
-        endDateForm.setHours(23, 59, 59);
-
-        const newFilteredMeetups = currentMeetups.filter((meetup) => {
-          const meetupDate = new Date(meetup.date);
-
-          return meetupDate >= startDateForm && meetupDate <= endDateForm;
-        });
-
-        // Lägg till de nya filtrerade meetups i set:et
-        newFilteredMeetups.forEach((meetup) => {
-          filteredMeetupIds.add(meetup.id);
-        });
-        console.log(newFilteredMeetups);
-      }
-
-      // Konvertera set:et till en array av unika ID:er
-      const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
-
-      // Använd de unika ID:erna för att hämta de matchande meetups
-      const filteredMeetups = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
-
-      // Uppdatera meetups med de filtrerade värdena
-      setFilteredMeetups(filteredMeetups);
+      // Lägg till de nya filtrerade meetups i set
+      newFilteredMeetups.forEach((meetup) => {
+        filteredMeetupIds.add(meetup.id);
+      });
+      console.log(newFilteredMeetups);
     }
+
+    // Skapa ett nytt filterobjekt
+    const newFilter = { [key]: value };
+
+    // Skapa en kopia av befintliga filter och lägg till de nya filtret
+    const currentFilters = [...filters, newFilter];
+
+    // Uppdatera filtertillståndet med de nya filtren
+    setFilters(currentFilters);
+
+    // Loopa igenom varje filter och filtrera meetups
+    currentFilters.forEach((filter) => {
+      const value = Object.values(filter)[0];
+      const newFilteredMeetups = currentMeetups.filter((meetup) => {
+        return meetup.category === value || meetup.location === value;
+      });
+
+      // Lägg till de nya filtrerade meetups i set
+      newFilteredMeetups.forEach((meetup) => {
+        filteredMeetupIds.add(meetup.id);
+      });
+    });
+
+    // Konvertera set till en array av unika id
+    const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
+
+    // Använd de unika id för att hämta de matchande meetups
+    const filteredMeetups = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
+
+    // Uppdatera meetups med de filtrerade värdena
+    setFilteredMeetups(filteredMeetups);
   };
 
   const fetchMeetups = async () => {
@@ -167,10 +155,10 @@ function Meetups() {
             handleFilterChange={handleFilterChange}
             filters={filters}
           />
-          <SortByDateForm onSubmit={handleFilterChange} resetState={handleResetFilters} />
           <button className='button__remove' onClick={handleResetFilters}>
             Rensa filter
           </button>
+          <SortByDateForm onSubmit={handleFilterChange} resetState={handleResetFilters} />
         </>
       )}
 
@@ -228,72 +216,3 @@ function Meetups() {
 }
 
 export default Meetups;
-
-// const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
-//   event.preventDefault();
-//   const value = data;
-//   const key = event.currentTarget.value;
-
-//   // Skapa ett nytt filterobjekt
-//   const newFilter = { [key]: value };
-
-//   // Skapa en kopia av befintliga filter och lägg till de nya filtret
-//   const currentFilters = [...filters, newFilter];
-
-//   // Uppdatera filtertillståndet med de nya filtren
-//   setFilters(currentFilters);
-
-//   // Skapa en kopia av alla meetups för att behålla originaldata
-//   let currentMeetups: MeetupFullDetail[] = [];
-
-//   if (queriedMeetups.length > 0) {
-//     currentMeetups = [...queriedMeetups];
-//   } else {
-//     currentMeetups = [...meetups];
-//   }
-//   const filteredMeetupIds = new Set();
-
-//   // Loopa igenom varje filter och filtrera meetups med "eller" (OR) logik
-//   currentFilters.forEach((filter) => {
-//     const value = Object.values(filter)[0];
-//     const newFilteredMeetups = currentMeetups.filter((meetup) => {
-//       return meetup.category === value || meetup.location === value;
-//     });
-
-//     // Lägg till de nya filtrerade meetups i set:et
-//     newFilteredMeetups.forEach((meetup) => {
-//       filteredMeetupIds.add(meetup.id);
-//     });
-//   });
-
-//   // Lägg till filtrering efter datum om både start- och slutdatum är inställda
-
-//   if (data.start !== '' && data.end !== '') {
-//     const startDateForm = new Date(data.start);
-//     const endDateForm = new Date(data.end);
-
-//     // Ställ in tiden för slutdatum till 23:59:59
-//     endDateForm.setHours(23, 59, 59);
-
-//     const newFilteredMeetups = currentMeetups.filter((meetup) => {
-//       const meetupDate = new Date(meetup.date);
-
-//       return meetupDate >= startDateForm && meetupDate <= endDateForm;
-//     });
-
-//     // Lägg till de nya filtrerade meetups i set:et
-//     newFilteredMeetups.forEach((meetup) => {
-//       filteredMeetupIds.add(meetup.id);
-//     });
-//     console.log(newFilteredMeetups);
-//   }
-
-//   // Konvertera set:et till en array av unika ID:er
-//   const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
-
-//   // Använd de unika ID:erna för att hämta de matchande meetups
-//   const filteredMeetups = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
-
-//   // Uppdatera meetups med de filtrerade värdena
-//   setFilteredMeetups(filteredMeetups);
-// };
