@@ -2,16 +2,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getMeetupInfo } from '../services/api';
+import { getMeetup, registerAttendee } from '../services/api';
 
 import MeetupLargeCard from '../components/MeetupLargeCard/MeetupLargeCard';
 
-function MeetupPopup () {
+function MeetupInfo () {
 
     const [meetupDetails, setmeetupDetails] = useState ([]);
-    const { id } = useParams();
+    const [allowSubmit, setAllowSubmit] = useState(false);
 
-    let allowSubmit:Boolean;
+    const { id } = useParams();
 
     useEffect (() => {
 
@@ -21,7 +21,7 @@ function MeetupPopup () {
 
                 if (id) {
 
-                    const data = await getMeetupInfo(id);
+                    const data = await getMeetup(id);
 
                     if (data.success == true) {
 
@@ -40,16 +40,16 @@ function MeetupPopup () {
 
     if (meetupDetails.capacity > 0) {
 
-        allowSubmit = true;
+        setAllowSubmit(true);
     }
     else {
 
-        allowSubmit = false;
+        setAllowSubmit(false);
     }
 
     return (
         <div className="info__div">
-             <MeetupLargeCard
+            <MeetupLargeCard
             key={meetupDetails.id}
             id={meetupDetails.id}
             title={meetupDetails.title}
@@ -68,9 +68,9 @@ function MeetupPopup () {
             <p>{ meetupDetails.date }</p>
             <p>{ meetupDetails.rating }</p>
             
-            <button disabled onClick={ () => handleClick (meetupDetails) }>Jag vill besöka denna meetup!</button>
+            <button disabled={ !allowSubmit } onClick={ () => registerAttendee () }>Jag vill besöka denna meetup!</button>
         </div>
     )
 }
 
-export default MeetupPopup;
+export default MeetupInfo;
