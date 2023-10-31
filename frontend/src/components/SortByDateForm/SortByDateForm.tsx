@@ -24,8 +24,8 @@ function SortByDateForm({ onSubmit, resetState }: SortByDateFormProps) {
   };
 
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <section className='sortbydate__container'>
+    <form className='sortbydate__container' onSubmit={(event) => handleSubmit(event)}>
+      <section className='sortbydate__inputs'>
         <input
           className='sortbydate__input'
           type='date'

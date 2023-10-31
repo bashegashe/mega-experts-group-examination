@@ -1,4 +1,4 @@
-.sortbydate__container {
+.sortbydate__inputs {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,6 +10,6 @@
   background-color: #f2f2f2;
   border: none;
   border-radius: 10px;
-  padding: 0.2rem 0.9rem;
+  padding: 0.2rem 1.3rem;
   font-size: 0.7rem;
 }

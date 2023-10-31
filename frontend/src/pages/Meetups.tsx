@@ -19,12 +19,13 @@ function Meetups() {
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const [resetDates, setResetDates] = useState(false);
   const navigate = useNavigate();
 
   const handleResetFilters = (event: React.MouseEvent) => {
     event.preventDefault();
-    // Tar bort datum filret också!!
+
     setResetDates(true);
     setFilters([]);
     setFilteredMeetups([]);
@@ -32,6 +33,37 @@ function Meetups() {
     if (resetDates) {
       setResetDates(false);
     }
+  };
+
+  const handleDateFilter = (
+    event: React.FormEvent<HTMLFormElement>,
+    data: { start: string; end: string }
+  ) => {
+    event.preventDefault();
+
+    let currentMeetups: MeetupFullDetail[] = [];
+
+    if (filteredMeetups.length > 0) {
+      currentMeetups = [...filteredMeetups];
+    } else if (queriedMeetups.length > 0) {
+      currentMeetups = [...queriedMeetups];
+    } else {
+      currentMeetups = [...meetups];
+    }
+
+    const startDateForm = new Date(data.start);
+    const endDateForm = new Date(data.end);
+
+    // Ställ in tiden för slutdatum till 23:59:59
+    endDateForm.setHours(23, 59, 59);
+
+    const newFilteredMeetups = currentMeetups.filter((meetup) => {
+      const meetupDate = new Date(meetup.date);
+
+      return meetupDate >= startDateForm && meetupDate <= endDateForm;
+    });
+
+    setFilteredMeetups(newFilteredMeetups);
   };
 
   const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
@@ -43,30 +75,12 @@ function Meetups() {
     // Skapa en kopia av alla meetups för att behålla originaldata
     let currentMeetups: MeetupFullDetail[] = [];
 
-    if (queriedMeetups.length > 0) {
+    if (filteredMeetups.length > 0) {
+      currentMeetups = [...filteredMeetups];
+    } else if (queriedMeetups.length > 0) {
       currentMeetups = [...queriedMeetups];
     } else {
       currentMeetups = [...meetups];
-    }
-
-    if (!key) {
-      const startDateForm = new Date(data.start);
-      const endDateForm = new Date(data.end);
-
-      // Ställ in tiden för slutdatum till 23:59:59
-      endDateForm.setHours(23, 59, 59);
-
-      const newFilteredMeetups = currentMeetups.filter((meetup) => {
-        const meetupDate = new Date(meetup.date);
-
-        return meetupDate >= startDateForm && meetupDate <= endDateForm;
-      });
-
-      // Lägg till de nya filtrerade meetups i set
-      newFilteredMeetups.forEach((meetup) => {
-        filteredMeetupIds.add(meetup.id);
-      });
-      console.log(newFilteredMeetups);
     }
 
     // Skapa ett nytt filterobjekt
@@ -95,10 +109,10 @@ function Meetups() {
     const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
 
     // Använd de unika id för att hämta de matchande meetups
-    const filteredMeetups = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
+    const filteredMeetupsArr = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
 
     // Uppdatera meetups med de filtrerade värdena
-    setFilteredMeetups(filteredMeetups);
+    setFilteredMeetups(filteredMeetupsArr);
   };
 
   const fetchMeetups = async () => {
@@ -158,7 +172,7 @@ function Meetups() {
           <button className='button__remove' onClick={handleResetFilters}>
             Rensa filter
           </button>
-          <SortByDateForm onSubmit={handleFilterChange} resetState={handleResetFilters} />
+          <SortByDateForm onSubmit={handleDateFilter} resetState={handleResetFilters} />
         </>
       )}
 
