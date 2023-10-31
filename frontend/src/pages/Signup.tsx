@@ -64,14 +64,16 @@ function Signup() {
       <h3 className='main__title'>Skapa en användare</h3>
       <AuthForm onSubmit={handleSignup} initialValues={{ username: '', password: '' }} />
       {isLoading && <Loader />}
-      {registrationSuccess && (
+      {registrationSuccess && !isLoading && (
         <p className='main__success'>
           Registreringen lyckades, du skickas vidare till inloggning om {countdown}...
         </p>
       )}
-      <p className='auth__changeview'>
-        Har du redan ett konto? Logga in <Link to='/login'>här</Link>
-      </p>
+      {!isLoading && !registrationSuccess && (
+        <p className='auth__changeview'>
+          Har du redan ett konto? Logga in <Link to='/login'>här</Link>
+        </p>
+      )}
     </main>
   );
 }

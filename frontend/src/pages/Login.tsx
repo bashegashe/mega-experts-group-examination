@@ -43,9 +43,11 @@ function Login() {
       <AuthForm onSubmit={handleLogin} initialValues={{ username: '', password: '' }} />
       {isLoading && <Loader />}
 
-      <p className='auth__changeview'>
-        Inget konto än? Skapa ett <Link to='/signup'>här</Link>
-      </p>
+      {!isLoading && (
+        <p className='auth__changeview'>
+          Inget konto än? Skapa ett <Link to='/signup'>här</Link>
+        </p>
+      )}
     </main>
   );
 }
