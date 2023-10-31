@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import Logo from '../components/Logo/Header';
-import Menu from '../components/Menu/Menu';
 import AuthForm from '../components/AuthForm/AuthForm';
 
 import { postSignin } from '../services/api';
@@ -25,7 +24,6 @@ function Login() {
       const response = await postSignin(JSON.stringify(requestBody));
 
       if (response.success) {
-        console.log(response);
         navigate('/meetups');
       } else {
         alert('Felaktigt användarnamn eller lösenord.');
@@ -48,7 +46,6 @@ function Login() {
       <p className='auth__changeview'>
         Inget konto än? Skapa ett <Link to='/signup'>här</Link>
       </p>
-      <Menu />
     </main>
   );
 }

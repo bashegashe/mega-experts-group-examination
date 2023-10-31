@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SearchProps } from '../../types/types';
 
 function Search({ query, setQuery }: SearchProps) {
