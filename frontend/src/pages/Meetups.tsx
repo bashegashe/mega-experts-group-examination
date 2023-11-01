@@ -17,6 +17,7 @@ function Meetups() {
   const [queriedMeetups, setQueriedMeetups] = useState<MeetupFullDetail[]>([]);
   const [filters, setFilters] = useState<{ [key: string]: string }[]>([]);
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
+  const [isDateFilterActive, setIsDateFilterActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,6 +30,7 @@ function Meetups() {
     setResetDates(true);
     setFilters([]);
     setFilteredMeetups([]);
+    setIsDateFilterActive(false);
 
     if (resetDates) {
       setResetDates(false);
@@ -63,6 +65,8 @@ function Meetups() {
       return meetupDate >= startDateForm && meetupDate <= endDateForm;
     });
 
+    setIsDateFilterActive(true);
+
     setFilteredMeetups(newFilteredMeetups);
   };
 
@@ -75,7 +79,7 @@ function Meetups() {
     // Skapa en kopia av alla meetups för att behålla originaldata
     let currentMeetups: MeetupFullDetail[] = [];
 
-    if (filteredMeetups.length > 0) {
+    if (isDateFilterActive) {
       currentMeetups = [...filteredMeetups];
     } else if (queriedMeetups.length > 0) {
       currentMeetups = [...queriedMeetups];
