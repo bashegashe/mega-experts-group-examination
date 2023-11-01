@@ -37,6 +37,11 @@ body {
   margin-bottom: 1rem;
 }
 
+.main__success {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
 .input__large {
   height: 40px;
   width: 300px;
@@ -62,9 +67,10 @@ body {
 }
 
 .button__filter {
-  background-image: url('./filter.svg');
+  background-image: url('https://bashegashe.github.io/mega-experts-group-examination/filter.svg');
   background-size: contain;
   background-repeat: no-repeat;
+  cursor: pointer;
   width: 20px;
   height: 20px;
   border: none;
@@ -79,7 +85,7 @@ body {
   border-radius: 10px;
   padding: 0.2rem 0.4rem;
   font-size: 10px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .button__filters {
@@ -93,12 +99,26 @@ body {
   border-radius: 10px;
 }
 
+.button__dateselect {
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-right: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .button__filter--green {
   background-color: #31a043;
 }
 
 .button__filter--turquoise {
   background-color: #2bb3a3;
+}
+
+.button__filters--active {
+  background-color: #ff0000;
 }
 
 .hide-bg {

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+
+import { StarRatingProps } from '../../types/types';
 import StarItem from './StarItem';
 
 const containerStyle = {
@@ -12,21 +13,19 @@ const starContainerStyle = {
   display: 'flex',
 };
 
-StarRating.propTypes = {
-  maxRating: PropTypes.number,
-  defaultRating: PropTypes.number,
-  size: PropTypes.number,
-  color: PropTypes.string,
-  messages: PropTypes.array,
-  onChange: PropTypes.func,
-  viewOnly: PropTypes.bool,
-};
-
-function StarRating({ maxRating = 5, color = '#fcc419', size = 48, defaultRating = 0, messages = [], onChange, viewOnly = false }) {
+function StarRating({
+  maxRating = 5,
+  color = '#fcc419',
+  size = 48,
+  defaultRating = 0,
+  messages = [],
+  onChange,
+  viewOnly = false,
+}: StarRatingProps) {
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
-  function handleRating(rating) {
+  function handleRating(rating: number) {
     setRating(rating);
     // onSetRating(rating)
     if (onChange) onChange(rating);

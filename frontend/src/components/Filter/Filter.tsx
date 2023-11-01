@@ -1,13 +1,9 @@
 import './filter.css';
-import { MeetupFullDetail } from '../../types/types';
+
+import { FilterProps } from '../../types/types';
 import FilterButton from './FilterButton/FilterButton';
 
-interface FilterProps {
-  meetups: MeetupFullDetail[];
-  data: string;
-}
-
-function Filter({ meetups, data, handleFilterChange }: FilterProps) {
+function Filter({ meetups, data, handleFilterChange, filters }: FilterProps) {
   let uniqueCategories: string[] = [];
   let uniqueLocations: string[] = [];
 
@@ -28,6 +24,7 @@ function Filter({ meetups, data, handleFilterChange }: FilterProps) {
           target='category'
           className='button__filter--green'
           handleFilterChange={handleFilterChange}
+          filters={filters}
         />
       ))}
       {uniqueLocations.map((location) => (
@@ -37,6 +34,7 @@ function Filter({ meetups, data, handleFilterChange }: FilterProps) {
           target='location'
           className='button__filter--turquoise'
           handleFilterChange={handleFilterChange}
+          filters={filters}
         />
       ))}
     </section>

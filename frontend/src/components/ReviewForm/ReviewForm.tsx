@@ -25,11 +25,14 @@ export default function ReviewForm ({meetupId}: {meetupId: Meetup['id']}) {
 
     if (response.success === true) {
       alert('Din recension har sparats')
-    } else {
-      alert('Något gick fel vid sparandet av recensionen.')
-    }
-    if (response.error === 'Token in cookie is missing') {
+    } else if (response.error === 'You cannot review a meetup that has not happened yet') {
+      alert('Recension sparades inte. Du kan inte recensera en meetup som inte har ägt rum än.')
+    } else if (response.error === 'You have already reviewed this meetup') {
+      alert('Recension sparades inte. Du har redan recenserat denna meetup.')
+    } else if (response.error === 'Token in cookie is missing') {
       navigate('/login');
+    } else {
+        alert('Något gick fel vid sparandet av recensionen.')
     }
 
     setIsLoading(false);
@@ -37,10 +40,10 @@ export default function ReviewForm ({meetupId}: {meetupId: Meetup['id']}) {
 
   return (
     <div>
-      <h4 className='main__subtitle'>Ny recension</h4>
+      {/* <h4 className='main__subtitle'>Ny recension</h4> */}
       <div className='flex flex-col' style={{gap:'1rem'}}>
         <div className='flex' style={{gap: '1.5rem'}}>
-          <div>Betyg</div>
+          <div>Ditt betyg</div>
           <StarRating
             size={20}
             maxRating={5}

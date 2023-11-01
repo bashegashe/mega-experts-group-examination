@@ -22,6 +22,7 @@ function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
         type='text'
         name='username'
         placeholder='Användarnamn'
+        autoComplete='current-username'
         value={data.username}
         onChange={handleChange}
       />
@@ -30,6 +31,7 @@ function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
         type='password'
         name='password'
         placeholder='Lösenord'
+        autoComplete='current-password'
         value={data.password}
         onChange={handleChange}
       />

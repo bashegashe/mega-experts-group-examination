@@ -1,6 +1,6 @@
-import React from 'react';
+import { StarItemProps } from '../../types/types';
 
-function StarItem({ onRate, full, onHoverIn, onHoverOut, size, color }) {
+function StarItem({ onRate, full, onHoverIn, onHoverOut, size, color }: StarItemProps) {
   const starSyle = {
     width: `${size}px`,
     height: `${size}px`,
