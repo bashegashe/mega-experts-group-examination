@@ -1,10 +1,11 @@
 import './AuthForm.css';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { AuthFormProps } from '../../types/types';
 
 function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
   const [data, setData] = useState(initialValues);
+  const inputElem = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [event.target.name]: event.target.value });
@@ -14,6 +15,12 @@ function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
     event.preventDefault();
     onSubmit(data);
   };
+
+  useEffect(function () {
+    if (inputElem.current) {
+      inputElem.current.focus();
+    }
+  }, []);
 
   return (
     <form className='auth__form' onSubmit={handleSubmit}>
@@ -25,6 +32,7 @@ function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
         autoComplete='current-username'
         value={data.username}
         onChange={handleChange}
+        ref={inputElem}
       />
       <input
         className='input__large'
