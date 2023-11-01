@@ -14,6 +14,7 @@ provider:
       allowedOrigins:
         - 'http://localhost:5173'
         - ${env:GITHUB_PAGES_URL}
+        - ${env:AWS_AMPLIFY_URL}
       allowedHeaders:
         - Content-Type
         - X-Amz-Date
