@@ -13,7 +13,9 @@ function Signup() {
   const [countdown, setCountdown] = useState(3);
 
   const handleSignup = async (formData: FormData) => {
-    if (!formData.username || !formData.password) return;
+    if (!formData.username || !formData.password) {
+      return alert('Vänligen fyll användarnamn och lösenord.');
+    }
     setIsLoading(true);
 
     try {
