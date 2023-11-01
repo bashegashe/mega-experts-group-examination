@@ -45,7 +45,7 @@ function MeetupSmallCard({
       )}
       {type === 'Meetup' && (
         <button className='card__link'>
-        <Link to={`/meetup/${id}`} className='card__link'>
+        <Link to={`/meetups/${id}`} className='card__link'>
           <img src={arrowSvg} alt='Link to meetup details.' />
         </Link>
       </button>

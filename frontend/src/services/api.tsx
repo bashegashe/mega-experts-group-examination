@@ -45,3 +45,4 @@ export const deleteSignOut = () => callApi('auth/logout', 'DELETE');
 export const postSignup = (body: string) => callApi('auth/register', 'POST', body);
 export const deleteBooking = (id: string) => callApi(`meetups/${id}`, 'DELETE');
 export const postReview = (id: string, body: string) => callApi(`meetups/review/${id}`, 'POST', body);
+export const registerAttendee = (id:string) => callApi(`meetups/${id}`, 'POST');
