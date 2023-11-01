@@ -15,6 +15,7 @@ function Profile() {
   const [oldMeetups, setOldMeetups] = useState([]);
   const [upcomingMeetups, setUpcomingMeetups] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isReLoading, setIsReLoading] = useState(false);
   const navigate = useNavigate();
 
   const getAllMeetups = async () => {
@@ -31,7 +32,7 @@ function Profile() {
   };
 
   const handleDeleteBooking = async (id: string) => {
-    setIsLoading(true);
+    setIsReLoading(true);
     try {
       const response = await deleteBooking(id);
 
@@ -45,7 +46,7 @@ function Profile() {
     } catch (error) {
       console.error('Ett fel uppstod:', error);
     } finally {
-      setIsLoading(false);
+      setIsReLoading(false);
     }
   };
 
@@ -74,7 +75,7 @@ function Profile() {
       ) : (
         <p className='main__text'>Inga kommande meetups bokade</p>
       )}
-      {isLoading && <Loader />}
+      {isLoading || (isReLoading && <Loader />)}
       <h4 className='main__subtitle'>Tidigare Meetups</h4>
 
       {oldMeetups.length > 0 ? (
@@ -92,7 +93,7 @@ function Profile() {
       ) : (
         <p>Inga tidigare meetups.</p>
       )}
-      {isLoading && <Loader />}
+      {isLoading && !isReLoading && <Loader />}
 
       <Menu />
     </main>

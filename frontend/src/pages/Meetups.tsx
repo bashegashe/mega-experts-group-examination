@@ -56,7 +56,6 @@ function Meetups() {
     const startDateForm = new Date(data.start);
     const endDateForm = new Date(data.end);
 
-    // Ställ in tiden för slutdatum till 23:59:59
     endDateForm.setHours(23, 59, 59);
 
     const newFilteredMeetups = currentMeetups.filter((meetup) => {
