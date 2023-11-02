@@ -31,6 +31,17 @@ async function getReviews(meetup) {
   }));
 }
 
+function calculateAverageRating(reviews) {
+  if (reviews.length === 0) {
+    return 0;
+  }
+
+  const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
+  const average = sum / reviews.length;
+
+  return Math.ceil(average);
+}
+
 export async function getMeetups() {
   const params = {
     TableName: process.env.TABLE_NAME,
@@ -47,6 +58,10 @@ export async function getMeetups() {
     item.attendees = await getAttendees(item);
     item.reviews = await getReviews(item);
   }));
+
+  Items.forEach((item) => {
+    item.rating = calculateAverageRating(item.reviews);
+  });
 
   const currentTime = new Date();
   const upcomingMeetups = Items.filter((item) => new Date(item.date) >= currentTime);
@@ -67,6 +82,7 @@ export async function getMeetup(id) {
 
   Item.attendees = await getAttendees(Item);
   Item.reviews = await getReviews(Item);
+  Item.rating = calculateAverageRating(Item.reviews);
 
   return Item;
 }
