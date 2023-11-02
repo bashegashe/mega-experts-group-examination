@@ -9,6 +9,7 @@ import Loader from '../components/Loader/Loader';
 import MeetupLargeCard from '../components/MeetupLargeCard/MeetupLargeCard';
 import Search from '../components/Search/Search';
 import Filter from '../components/Filter/Filter';
+import NumResults from '../components/NumResults/NumResults';
 
 import { getAllMeetups } from '../services/api';
 import { MeetupFullDetail } from '../types/types';
@@ -83,7 +84,7 @@ function Meetups() {
       )}
 
       <Search onSearch={handleSearch} filters={filters} />
-
+      {filteredMeetups && <NumResults filteredMeetups={filteredMeetups} />}
       {filteredMeetups.length === 0 ? (
         <p>Inga resultat</p>
       ) : (
