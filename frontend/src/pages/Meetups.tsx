@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useFilters from '../hooks/useFilter';
+import useSortByFilter from '../hooks/useSortByFilter';
+
 import Menu from '../components/Menu/Menu';
 import Loader from '../components/Loader/Loader';
 import MeetupLargeCard from '../components/MeetupLargeCard/MeetupLargeCard';
@@ -14,19 +17,7 @@ import SortByDateForm from '../components/SortByDateForm/SortByDateForm';
 function Meetups() {
   const [meetups, setMeetups] = useState<MeetupFullDetail[]>([]);
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
-  const [filters, setFilters] = useState<{
-    query: string;
-    locations: string[];
-    categories: string[];
-    startDate: string;
-    endDate: string;
-  }>({
-    query: '',
-    locations: [],
-    categories: [],
-    startDate: '',
-    endDate: '',
-  });
+  const { filters, setFilters, handleAddFilters } = useFilters();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,27 +36,6 @@ function Meetups() {
   function handleSearch(query: string) {
     setFilters({ ...filters, query });
   }
-
-  const handleAddFilters = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
-    event.preventDefault();
-    const key = event.currentTarget.value;
-
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters };
-
-      if (key === 'category') {
-        updatedFilters.categories = updatedFilters.categories.includes(data)
-          ? updatedFilters.categories.filter((item) => item !== data)
-          : updatedFilters.categories.concat(data);
-      } else if (key === 'location') {
-        updatedFilters.locations = updatedFilters.locations.includes(data)
-          ? updatedFilters.locations.filter((item) => item !== data)
-          : updatedFilters.locations.concat(data);
-      }
-
-      return updatedFilters;
-    });
-  };
 
   const fetchMeetups = async () => {
     const response = await getAllMeetups();
@@ -86,37 +56,7 @@ function Meetups() {
     fetchMeetups();
   }, []);
 
-  useEffect(() => {
-    const filteredMeetups = meetups.filter((meetup) => {
-      if (filters.query && !meetup.title.includes(filters.query)) {
-        return false;
-      }
-
-      if (filters.startDate && filters.endDate) {
-        const meetupDate = new Date(meetup.date);
-        const startDate = new Date(filters.startDate);
-        startDate.setHours(0, 0, 0);
-        const endDate = new Date(filters.endDate);
-        endDate.setHours(23, 59, 59);
-
-        if (meetupDate < startDate || meetupDate > endDate) {
-          return false;
-        }
-      }
-
-      if (filters.categories.length > 0 && !filters.categories.includes(meetup.category)) {
-        return false;
-      }
-
-      if (filters.locations.length > 0 && !filters.locations.includes(meetup.location)) {
-        return false;
-      }
-
-      return true;
-    });
-
-    setFilteredMeetups(filteredMeetups);
-  }, [filters, meetups]);
+  useSortByFilter(meetups, filters, setFilteredMeetups);
 
   return (
     <main className='main'>
