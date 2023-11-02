@@ -7,7 +7,7 @@ import ReviewList from '../components/ReviewList/ReviewList';
 import Menu from '../components/Menu/Menu';
 import Loader from '../components/Loader/Loader';
 
-import { getMeetup, registerAttendee, getMeetupsProfile } from '../services/api';
+import { getMeetup, postBooking, getMeetupsProfile } from '../services/api';
 
 import { MeetupFullDetail } from '../types/types';
 
@@ -25,7 +25,7 @@ function MeetupInfo() {
 
   async function handleSubmit(id: string) {
     try {
-      const response = await registerAttendee(id);
+      const response = await postBooking(id);
       if (response.success) {
         navigate('/profile');
       }
