@@ -13,122 +13,58 @@ import SortByDateForm from '../components/SortByDateForm/SortByDateForm';
 
 function Meetups() {
   const [meetups, setMeetups] = useState<MeetupFullDetail[]>([]);
-  const [query, setQuery] = useState('');
-  const [queriedMeetups, setQueriedMeetups] = useState<MeetupFullDetail[]>([]);
-  const [filters, setFilters] = useState<{ [key: string]: string }[]>([]);
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
-  const [filteredByDateMeetups, setFilteredByDatedMeetups] = useState<MeetupFullDetail[]>([]);
-  const [isDateFilterActive, setIsDateFilterActive] = useState(false);
+  const [filters, setFilters] = useState<{
+    query: string;
+    locations: string[];
+    categories: string[];
+    startDate: string;
+    endDate: string;
+  }>({
+    query: '',
+    locations: [],
+    categories: [],
+    startDate: '',
+    endDate: '',
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [resetDates, setResetDates] = useState(false);
   const navigate = useNavigate();
 
-  const handleResetFilters = (event: React.MouseEvent) => {
+  function handleAddDates(dateRange: { startDate: string; endDate: string }) {
+    const updatedFilters = { ...filters };
+
+    updatedFilters.startDate = dateRange.startDate;
+    updatedFilters.endDate = dateRange.endDate;
+
+    setFilters(updatedFilters);
+  }
+
+  function handleSearch(query: string) {
+    setFilters({ ...filters, query });
+  }
+
+  const handleAddFilters = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
     event.preventDefault();
-
-    setResetDates(true);
-    setFilters([]);
-    setFilteredMeetups([]);
-    setIsDateFilterActive(false);
-
-    if (resetDates) {
-      setResetDates(false);
-    }
-  };
-
-  const handleDateFilter = (
-    event: React.FormEvent<HTMLFormElement>,
-    data: { start: string; end: string }
-  ) => {
-    event.preventDefault();
-
-    let currentMeetups: MeetupFullDetail[] = [];
-
-    if (filteredMeetups.length > 0) {
-      currentMeetups = [...filteredMeetups];
-    } else if (queriedMeetups.length > 0) {
-      currentMeetups = [...queriedMeetups];
-    } else {
-      currentMeetups = [...meetups];
-    }
-
-    const startDateForm = new Date(data.start);
-    const endDateForm = new Date(data.end);
-
-    endDateForm.setHours(23, 59, 59);
-
-    const newFilteredMeetups = currentMeetups.filter((meetup) => {
-      const meetupDate = new Date(meetup.date);
-
-      return meetupDate >= startDateForm && meetupDate <= endDateForm;
-    });
-
-    setIsDateFilterActive(true);
-
-    // setFilteredMeetups(newFilteredMeetups);
-    setFilteredByDatedMeetups(newFilteredMeetups);
-  };
-
-  const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
-    event.preventDefault();
-    const value = data;
     const key = event.currentTarget.value;
-    const filteredMeetupIds = new Set();
 
-    // Skapa en kopia av alla meetups för att behålla originaldata
-    let currentMeetups: MeetupFullDetail[] = [];
-    // Om man gör sökning först så går det inte att välja en kategori på query resultat
-    if (isDateFilterActive) {
-      currentMeetups = [...filteredByDateMeetups];
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters };
 
-      // currentMeetups = [...filteredMeetups];
-    } else if (filteredMeetups.length > 0) {
-      currentMeetups = [...queriedMeetups];
-    } else if (queriedMeetups.length > 0) {
-      currentMeetups = [...queriedMeetups];
-    } else {
-      currentMeetups = [...meetups];
-    }
-    // om det finns en filteredMeetups,
+      if (key === 'category') {
+        updatedFilters.categories = updatedFilters.categories.includes(data)
+          ? updatedFilters.categories.filter((item) => item !== data)
+          : updatedFilters.categories.concat(data);
+      } else if (key === 'location') {
+        updatedFilters.locations = updatedFilters.locations.includes(data)
+          ? updatedFilters.locations.filter((item) => item !== data)
+          : updatedFilters.locations.concat(data);
+      }
 
-    // Skapa ett nytt filterobjekt
-    const newFilter = { [key]: value };
-
-    // Skapa en kopia av befintliga filter och lägg till de nya filtret
-    let currentFilters = [...filters, newFilter];
-
-    // Kolla om ett filter med samma nyckel redan finns
-    const isFilterAlreadyIncluded = currentFilters.filter((obj) => obj[key] === value).length > 1;
-
-    if (isFilterAlreadyIncluded) {
-      currentFilters = currentFilters.filter((filter) => filter[key] !== value);
-    }
-
-    setFilters(currentFilters);
-
-    // Loopa igenom varje filter och filtrera meetups
-    currentFilters.forEach((filter) => {
-      const value = Object.values(filter)[0];
-      const newFilteredMeetups = currentMeetups.filter((meetup) => {
-        return meetup.category === value || meetup.location === value;
-      });
-
-      // Lägg till de nya filtrerade meetups i set
-      newFilteredMeetups.forEach((meetup) => {
-        filteredMeetupIds.add(meetup.id);
-      });
+      return updatedFilters;
     });
-
-    // Konvertera set till en array av unika id
-    const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
-
-    // // Använd de unika id för att hämta de matchande meetups
-    const filteredMeetupsArr = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
-
-    // Uppdatera meetups med de filtrerade värdena
-    setFilteredMeetups(filteredMeetupsArr);
   };
 
   const fetchMeetups = async () => {
@@ -150,42 +86,37 @@ function Meetups() {
     fetchMeetups();
   }, []);
 
-  const queryMeetups = (data: MeetupFullDetail[], query: string) => {
-    return data.filter((meetup) => meetup.title.toLowerCase().includes(query.toLowerCase()));
-  };
-
   useEffect(() => {
-    const queried = queryMeetups(meetups, query);
-    setQueriedMeetups(queried);
-  }, [query]);
+    const filteredMeetups = meetups.filter((meetup) => {
+      if (filters.query && !meetup.title.includes(filters.query)) {
+        return false;
+      }
 
-  let displayedMeetups: MeetupFullDetail[] = [];
+      if (filters.startDate && filters.endDate) {
+        const meetupDate = new Date(meetup.date);
+        const startDate = new Date(filters.startDate);
+        startDate.setHours(0, 0, 0);
+        const endDate = new Date(filters.endDate);
+        endDate.setHours(23, 59, 59);
 
-  if (isDateFilterActive && filteredMeetups.length === 0) {
-    displayedMeetups = filteredByDateMeetups;
-  } else if (filteredMeetups.length > 0) {
-    displayedMeetups = filteredMeetups;
-  } else if (query && queriedMeetups.length > 0) {
-    displayedMeetups = queriedMeetups;
-  } else if (query && queriedMeetups.length === 0) {
-    displayedMeetups = [];
-  } else {
-    displayedMeetups = meetups;
-  }
+        if (meetupDate < startDate || meetupDate > endDate) {
+          return false;
+        }
+      }
 
-  const renderMeetups = displayedMeetups.map((meetup) => (
-    <MeetupLargeCard
-      key={meetup.id}
-      id={meetup.id}
-      title={meetup.title}
-      description={meetup.description}
-      category={meetup.category}
-      date={meetup.date}
-      host={meetup.host}
-      location={meetup.location}
-      rating={meetup.rating}
-    />
-  ));
+      if (filters.categories.length > 0 && !filters.categories.includes(meetup.category)) {
+        return false;
+      }
+
+      if (filters.locations.length > 0 && !filters.locations.includes(meetup.location)) {
+        return false;
+      }
+
+      return true;
+    });
+
+    setFilteredMeetups(filteredMeetups);
+  }, [filters, meetups]);
 
   return (
     <main className='main'>
@@ -201,28 +132,35 @@ function Meetups() {
       </div>
       {isOpen && (
         <>
-          <Filter
-            meetups={meetups}
-            data='category'
-            handleFilterChange={handleFilterChange}
-            filters={filters}
+          <Filter meetups={meetups} data='category' onFilterChange={handleAddFilters} filters={filters} />
+          <Filter meetups={meetups} data='location' onFilterChange={handleAddFilters} filters={filters} />
+          <SortByDateForm
+            onDatesChange={handleAddDates}
+            setFilters={setFilters}
+            setFilteredMeetups={setFilteredMeetups}
           />
-          <Filter
-            meetups={meetups}
-            data='location'
-            handleFilterChange={handleFilterChange}
-            filters={filters}
-          />
-          <button className='button__remove' onClick={handleResetFilters}>
-            Rensa filter
-          </button>
-          <SortByDateForm onSubmit={handleDateFilter} resetState={handleResetFilters} />
         </>
       )}
 
-      <Search query={query} setQuery={setQuery} />
+      <Search onSearch={handleSearch} filters={filters} />
 
-      {renderMeetups.length > 0 ? renderMeetups : <p className='main__text'>Inga resultat.</p>}
+      {filteredMeetups.length === 0 ? (
+        <p>Inga resultat</p>
+      ) : (
+        filteredMeetups.map((meetup) => (
+          <MeetupLargeCard
+            key={meetup.id}
+            id={meetup.id}
+            title={meetup.title}
+            description={meetup.description}
+            category={meetup.category}
+            date={meetup.date}
+            host={meetup.host}
+            location={meetup.location}
+            rating={meetup.rating}
+          />
+        ))
+      )}
 
       {isLoading && <Loader />}
     </main>
