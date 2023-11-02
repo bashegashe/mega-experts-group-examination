@@ -42,6 +42,21 @@ body {
   text-align: center;
 }
 
+.details__desc {
+  margin-bottom: 1rem;
+  color: #6f6f6f;
+}
+
+.details__aside {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.details__subtitle {
+  font-size: 10px;
+}
+
 .input__large {
   height: 40px;
   width: 300px;
@@ -109,6 +124,18 @@ body {
   margin-bottom: 1rem;
 }
 
+.button__review {
+  color: #fff;
+  font-size: 10px;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 99px;
+  text-decoration: none;
+}
+
 .button__filter--green {
   background-color: #31a043;
 }
@@ -123,6 +150,10 @@ body {
 
 .hide-bg {
   background-image: none;
+}
+
+.margin--top {
+  margin-top: 1rem;
 }
 
 .button__cancel {

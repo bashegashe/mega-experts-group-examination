@@ -23,6 +23,8 @@ export interface MeetupFullDetail {
   host: string;
   location: string;
   rating: number;
+  attendees?: [];
+  capacity?: number;
   reviews?: BackendReview[];
 }
 

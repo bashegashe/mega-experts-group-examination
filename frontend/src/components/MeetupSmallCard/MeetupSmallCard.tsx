@@ -29,7 +29,9 @@ function MeetupSmallCard({
       <img className='card__img' src={templateImg} alt='Meetup Image' />
       <section className='card__details'>
         <h5 className='card__title'>{title}</h5>
-        {type === 'Meetup' && <p className='card__subtitle'>{description.split(' ').slice(0, 3).join(' ')}...</p>}
+        {type === 'Meetup' && (
+          <p className='card__subtitle'>{description.split(' ').slice(0, 3).join(' ')}...</p>
+        )}
         {type === 'Review' && (
           <>
             <p className='card__subtitle'>{description}</p>
@@ -45,10 +47,10 @@ function MeetupSmallCard({
       )}
       {type === 'Meetup' && (
         <button className='card__link'>
-        <Link to={`/meetups/${id}`} className='card__link'>
-          <img src={arrowSvg} alt='Link to meetup details.' />
-        </Link>
-      </button>
+          <Link to={`/meetup/${id}`} className='card__link'>
+            <img src={arrowSvg} alt='Link to meetup details.' />
+          </Link>
+        </button>
       )}
     </article>
   );
