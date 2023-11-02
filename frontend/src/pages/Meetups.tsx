@@ -17,6 +17,7 @@ function Meetups() {
   const [queriedMeetups, setQueriedMeetups] = useState<MeetupFullDetail[]>([]);
   const [filters, setFilters] = useState<{ [key: string]: string }[]>([]);
   const [filteredMeetups, setFilteredMeetups] = useState<MeetupFullDetail[]>([]);
+  const [filteredByDateMeetups, setFilteredByDatedMeetups] = useState<MeetupFullDetail[]>([]);
   const [isDateFilterActive, setIsDateFilterActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +67,8 @@ function Meetups() {
 
     setIsDateFilterActive(true);
 
-    setFilteredMeetups(newFilteredMeetups);
+    // setFilteredMeetups(newFilteredMeetups);
+    setFilteredByDatedMeetups(newFilteredMeetups);
   };
 
   const handleFilterChange = (event: React.MouseEvent<HTMLButtonElement>, data: string) => {
@@ -77,22 +79,33 @@ function Meetups() {
 
     // Skapa en kopia av alla meetups för att behålla originaldata
     let currentMeetups: MeetupFullDetail[] = [];
-
+    // Om man gör sökning först så går det inte att välja en kategori på query resultat
     if (isDateFilterActive) {
-      currentMeetups = [...filteredMeetups];
+      currentMeetups = [...filteredByDateMeetups];
+
+      // currentMeetups = [...filteredMeetups];
+    } else if (filteredMeetups.length > 0) {
+      currentMeetups = [...queriedMeetups];
     } else if (queriedMeetups.length > 0) {
       currentMeetups = [...queriedMeetups];
     } else {
       currentMeetups = [...meetups];
     }
+    // om det finns en filteredMeetups,
 
     // Skapa ett nytt filterobjekt
     const newFilter = { [key]: value };
 
     // Skapa en kopia av befintliga filter och lägg till de nya filtret
-    const currentFilters = [...filters, newFilter];
+    let currentFilters = [...filters, newFilter];
 
-    // Uppdatera filtertillståndet med de nya filtren
+    // Kolla om ett filter med samma nyckel redan finns
+    const isFilterAlreadyIncluded = currentFilters.filter((obj) => obj[key] === value).length > 1;
+
+    if (isFilterAlreadyIncluded) {
+      currentFilters = currentFilters.filter((filter) => filter[key] !== value);
+    }
+
     setFilters(currentFilters);
 
     // Loopa igenom varje filter och filtrera meetups
@@ -111,7 +124,7 @@ function Meetups() {
     // Konvertera set till en array av unika id
     const filteredMeetupIdsArray = Array.from(filteredMeetupIds);
 
-    // Använd de unika id för att hämta de matchande meetups
+    // // Använd de unika id för att hämta de matchande meetups
     const filteredMeetupsArr = currentMeetups.filter((meetup) => filteredMeetupIdsArray.includes(meetup.id));
 
     // Uppdatera meetups med de filtrerade värdena
@@ -137,14 +150,42 @@ function Meetups() {
     fetchMeetups();
   }, []);
 
-  const queryMeetups = (meetups: MeetupFullDetail[], query: string) => {
-    return meetups.filter((meetup) => meetup.title.toLowerCase().includes(query.toLowerCase()));
+  const queryMeetups = (data: MeetupFullDetail[], query: string) => {
+    return data.filter((meetup) => meetup.title.toLowerCase().includes(query.toLowerCase()));
   };
 
   useEffect(() => {
     const queried = queryMeetups(meetups, query);
     setQueriedMeetups(queried);
   }, [query]);
+
+  let displayedMeetups: MeetupFullDetail[] = [];
+
+  if (isDateFilterActive && filteredMeetups.length === 0) {
+    displayedMeetups = filteredByDateMeetups;
+  } else if (filteredMeetups.length > 0) {
+    displayedMeetups = filteredMeetups;
+  } else if (query && queriedMeetups.length > 0) {
+    displayedMeetups = queriedMeetups;
+  } else if (query && queriedMeetups.length === 0) {
+    displayedMeetups = [];
+  } else {
+    displayedMeetups = meetups;
+  }
+
+  const renderMeetups = displayedMeetups.map((meetup) => (
+    <MeetupLargeCard
+      key={meetup.id}
+      id={meetup.id}
+      title={meetup.title}
+      description={meetup.description}
+      category={meetup.category}
+      date={meetup.date}
+      host={meetup.host}
+      location={meetup.location}
+      rating={meetup.rating}
+    />
+  ));
 
   return (
     <main className='main'>
@@ -181,51 +222,7 @@ function Meetups() {
 
       <Search query={query} setQuery={setQuery} />
 
-      {filteredMeetups.length > 0 ? (
-        filteredMeetups.map((meetup) => (
-          <MeetupLargeCard
-            key={meetup.id}
-            id={meetup.id}
-            title={meetup.title}
-            description={meetup.description}
-            category={meetup.category}
-            date={meetup.date}
-            host={meetup.host}
-            location={meetup.location}
-            rating={meetup.rating}
-          />
-        ))
-      ) : query && queriedMeetups.length > 0 ? (
-        queriedMeetups.map((meetup) => (
-          <MeetupLargeCard
-            key={meetup.id}
-            id={meetup.id}
-            title={meetup.title}
-            description={meetup.description}
-            category={meetup.category}
-            date={meetup.date}
-            host={meetup.host}
-            location={meetup.location}
-            rating={meetup.rating}
-          />
-        ))
-      ) : meetups.length > 0 ? (
-        meetups.map((meetup) => (
-          <MeetupLargeCard
-            key={meetup.id}
-            id={meetup.id}
-            title={meetup.title}
-            description={meetup.description}
-            category={meetup.category}
-            date={meetup.date}
-            host={meetup.host}
-            location={meetup.location}
-            rating={meetup.rating}
-          />
-        ))
-      ) : (
-        <p className='main__text'>Inga planerade meetups.</p>
-      )}
+      {renderMeetups.length > 0 ? renderMeetups : <p className='main__text'>Inga resultat.</p>}
 
       {isLoading && <Loader />}
     </main>

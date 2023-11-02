@@ -11,7 +11,7 @@ import { getMeetup, postBooking, getMeetupsProfile } from '../services/api';
 
 import { MeetupFullDetail } from '../types/types';
 
-function MeetupInfo() {
+function MeetupDetails() {
   const [meetupDetails, setMeetupDetails] = useState<MeetupFullDetail | null>(null);
   const [availableSeats, setAvailableSeats] = useState(0);
   const [alreadyBookedMeetups, setAlreadyBookedMeetups] = useState([]);
@@ -155,4 +155,4 @@ function MeetupInfo() {
   );
 }
 
-export default MeetupInfo;
+export default MeetupDetails;

@@ -5,7 +5,7 @@ import Signup from './pages/Signup';
 import Meetups from './pages/Meetups';
 import Profile from './pages/Profile';
 import Reviews from './pages/AddReview';
-import MeetupInfo from './pages/MeetupInfo';
+import MeetupDetails from './pages/MeetupDetails';
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route path='login' element={<Login />} />
         <Route path='signup' element={<Signup />} />
         <Route path='meetups' element={<Meetups />} />
-        <Route path='meetup/:id' element={<MeetupInfo />} />
+        <Route path='meetup/:id' element={<MeetupDetails />} />
         <Route path='reviews/:meetupId' element={<Reviews />} />
         <Route path='profile' element={<Profile />} />
       </Routes>
