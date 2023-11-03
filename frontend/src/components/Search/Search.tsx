@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 
-function Search({ onSearch, filters }) {
+import { SearchProps } from '../../types/types';
+
+function Search({ onSearch, query }: SearchProps) {
   const inputElem = useRef<HTMLInputElement | null>(null);
 
   useEffect(function () {
@@ -14,7 +16,7 @@ function Search({ onSearch, filters }) {
       className='input__large input__large--margin'
       type='text'
       placeholder='Sök meetups...'
-      value={filters.query}
+      value={query}
       onChange={(e) => onSearch(e.target.value)}
       ref={inputElem}
     />

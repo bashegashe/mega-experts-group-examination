@@ -11,8 +11,8 @@ export function getCookie(cookies, cookieName) {
   return decodeURIComponent(cookieString ? cookieString.toString().replace(/^[^=]+./, '') : '');
 }
 
-export function sendCookie(token) {
-  return sendResponse(200, undefined, {
+export function sendCookie(token, userId) {
+  return sendResponse(200, { userId }, {
     'Set-Cookie': `token=${token}; ${COOKIE_FLAGS}`,
   });
 }

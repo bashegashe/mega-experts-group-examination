@@ -83,7 +83,8 @@ function Meetups() {
         </>
       )}
 
-      <Search onSearch={handleSearch} filters={filters} />
+      <Search onSearch={handleSearch} query={filters.query} />
+
       {filteredMeetups && !isLoading && <NumResults filteredMeetups={filteredMeetups} />}
       {filteredMeetups.length === 0 && !isLoading ? (
         <p>Inget resultat</p>

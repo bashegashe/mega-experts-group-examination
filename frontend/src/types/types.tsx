@@ -32,10 +32,10 @@ export interface LoaderProps {
   className?: string;
 }
 
-export interface SearchProps {
-  query: string;
-  setQuery: (query: string) => void;
-}
+// export interface SearchProps {
+//   query: string;
+//   setQuery: (query: string) => void;
+// }
 
 export interface Review {
   rating: number;
@@ -97,4 +97,9 @@ export interface StarItemProps {
   onHoverOut: () => void;
   size: number;
   color: string;
+}
+
+export interface SearchProps {
+  onSearch: (query: string) => void;
+  query: string;
 }
