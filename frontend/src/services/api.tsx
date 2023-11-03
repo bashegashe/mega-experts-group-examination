@@ -27,6 +27,13 @@ const callApi = async (endpoint: string, method: string, body?: string, param?: 
 
     const result = await response.json();
 
+    if (endpoint === 'auth/login' && method === 'POST' && result.success) {
+      localStorage.setItem('userId', result.data.userId);
+    }
+    if (endpoint === 'auth/logout' && method === 'DELETE' && result.success) {
+      localStorage.removeItem('userId');
+    }
+
     if (result.status === false) {
       return { success: false, message: 'fail' };
     }

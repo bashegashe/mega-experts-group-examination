@@ -15,7 +15,7 @@ const login = async (event) => {
 
   return Utils.cookie.sendCookie(Utils.token.generateToken({
     username,
-  }));
+  }), user.id);
 };
 
 export const handler = Services.middyfy(login, Schemas.authSchema);
