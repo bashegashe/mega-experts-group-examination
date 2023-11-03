@@ -13,7 +13,9 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (formData: FormData) => {
-    if (!formData.username || !formData.password) return;
+    if (!formData.username || !formData.password) {
+      return alert('Vänligen fyll användarnamn och lösenord.');
+    }
     setIsLoading(true);
     try {
       const requestBody: FormData = {

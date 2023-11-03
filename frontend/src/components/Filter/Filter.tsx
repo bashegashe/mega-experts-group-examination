@@ -3,7 +3,7 @@ import './filter.css';
 import { FilterProps } from '../../types/types';
 import FilterButton from './FilterButton/FilterButton';
 
-function Filter({ meetups, data, handleFilterChange, filters }: FilterProps) {
+function Filter({ meetups, data, onFilterChange, filters }: FilterProps) {
   let uniqueCategories: string[] = [];
   let uniqueLocations: string[] = [];
 
@@ -23,7 +23,7 @@ function Filter({ meetups, data, handleFilterChange, filters }: FilterProps) {
           key={category}
           target='category'
           className='button__filter--green'
-          handleFilterChange={handleFilterChange}
+          onFilterChange={onFilterChange}
           filters={filters}
         />
       ))}
@@ -33,7 +33,7 @@ function Filter({ meetups, data, handleFilterChange, filters }: FilterProps) {
           key={location}
           target='location'
           className='button__filter--turquoise'
-          handleFilterChange={handleFilterChange}
+          onFilterChange={onFilterChange}
           filters={filters}
         />
       ))}

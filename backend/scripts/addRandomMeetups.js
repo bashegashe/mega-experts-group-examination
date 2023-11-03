@@ -20,7 +20,7 @@ const generateMeetup = () => {
     date: currentDate.toISOString(),
     location: `${['Vasaparken', 'Slottsskogen', 'Ribersborgsstranden'][Math.floor(Math.random() * 3)]}`,
     description: 'En trevlig träff för att umgås och njuta av god mat och sällskap.',
-    rating: Math.floor(Math.random() * 5) + 1,
+    rating: 0,
     capacity: Math.floor(Math.random() * 50) + 10,
     GSI1PK: 'MEETUPS',
     GSI1SK: PK,

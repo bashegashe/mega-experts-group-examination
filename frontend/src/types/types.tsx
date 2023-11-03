@@ -23,6 +23,8 @@ export interface MeetupFullDetail {
   host: string;
   location: string;
   rating: number;
+  attendees?: [];
+  capacity?: number;
   reviews?: BackendReview[];
 }
 
@@ -47,22 +49,35 @@ export interface BackendReview extends Review {
 
 export interface FilterProps {
   meetups: MeetupFullDetail[];
-  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  onFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
   data: string;
-  filters: { [key: string]: string }[];
+  filters: {
+    locations: string[];
+    categories: string[];
+  };
 }
 
 export interface FilterButtonProps {
   data: string;
   className: string;
-  handleFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
+  onFilterChange: (event: React.MouseEvent<HTMLButtonElement>, data: string) => void;
   target: string;
-  filters: { [key: string]: string }[];
+  filters: {
+    locations: string[];
+    categories: string[];
+  };
 }
 
 export type SortByDateFormProps = {
-  onSubmit: (event: React.FormEvent<HTMLFormElement>, dateRange: { start: string; end: string }) => void;
-  resetState: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onDatesChange: (dateRange: { startDate: string; endDate: string }) => void;
+  setFilters: (filters: {
+    query: string;
+    locations: string[];
+    categories: string[];
+    startDate: string;
+    endDate: string;
+  }) => void;
+  setFilteredMeetups: (filteredMeetups: MeetupFullDetail[]) => void;
 };
 
 export interface StarRatingProps {

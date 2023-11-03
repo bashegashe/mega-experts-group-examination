@@ -7,8 +7,7 @@ export const signOut = async () => {
     if (response.success) {
       return true;
     } else {
-      alert('Något gick fel vid utloggning.');
-      console.error('Utloggningen misslyckades.', response);
+      return false;
     }
   } catch (error) {
     console.error(error);

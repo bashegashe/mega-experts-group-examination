@@ -13,7 +13,7 @@ function MeetupLargeCard({ title, host, location, id, date, rating, category }: 
   // Flytta till utils.
   const dateStamp = new Date(date);
   const year = dateStamp.getFullYear();
-  const month = String(dateStamp.getMonth() + 1).padStart(2, '0'); // Månaden är nollbaserad, därför +1 och formaterad med två siffror
+  const month = String(dateStamp.getMonth() + 1).padStart(2, '0');
   const day = String(dateStamp.getDate()).padStart(2, '0');
   const hours = String(dateStamp.getHours()).padStart(2, '0');
   const minutes = String(dateStamp.getMinutes()).padStart(2, '0');

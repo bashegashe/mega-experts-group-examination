@@ -1,13 +1,22 @@
-import { SearchProps } from '../../types/types';
+import { useEffect, useRef } from 'react';
 
-function Search({ query, setQuery }: SearchProps) {
+function Search({ onSearch, filters }) {
+  const inputElem = useRef<HTMLInputElement | null>(null);
+
+  useEffect(function () {
+    if (inputElem.current) {
+      inputElem.current.focus();
+    }
+  }, []);
+
   return (
     <input
       className='input__large input__large--margin'
       type='text'
       placeholder='Sök meetups...'
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
+      value={filters.query}
+      onChange={(e) => onSearch(e.target.value)}
+      ref={inputElem}
     />
   );
 }

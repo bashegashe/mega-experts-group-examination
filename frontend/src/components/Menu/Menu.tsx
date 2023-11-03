@@ -30,8 +30,14 @@ function Menu() {
     const response = await signOut();
 
     if (response) {
-      setIsLoading(true);
+      setIsLoading(false);
       navigate('/login');
+    }
+
+    if (!response) {
+      alert('Något gick fel vid utloggning.');
+      navigate('/login');
+      setIsLoading(false);
     }
   };
 
