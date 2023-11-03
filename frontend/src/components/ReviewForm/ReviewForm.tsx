@@ -39,26 +39,31 @@ export default function ReviewForm ({meetupId, reviews}: {meetupId: Meetup['id']
     setIsLoading(false);
   };
 
+  const hasReviewedMeetup = reviews?.find((review) => review.userId === localStorage.getItem('userId'));
+
   return (
     <div>
-      {/* <h4 className='main__subtitle'>Ny recension</h4> */}
       <div className='flex flex-col' style={{gap:'1rem'}}>
+      {!hasReviewedMeetup && (
+        <>
         <div className='flex' style={{gap: '1.5rem'}}>
-          <div>Ditt betyg</div>
-          <StarRating
-            size={20}
-            maxRating={5}
-            defaultRating={DEFAULT_RATING}
-            onChange={(rating: number) => setRating(rating)}
-          />
-        </div>
-        <div>
-          <div>Recension</div>
-          <textarea className='textarea' onChange={(e) => setReview(e.target.value)}></textarea>
-        </div>
+            <div>Ditt betyg</div>
+            <StarRating
+              size={20}
+              maxRating={5}
+              defaultRating={DEFAULT_RATING}
+              onChange={(rating: number) => setRating(rating)}
+            />
+          </div>
+          <div>
+            <div>Recension</div>
+            <textarea className='textarea' onChange={(e) => setReview(e.target.value)}></textarea>
+          </div>
+        </>
+      )}
         {isLoading ? <Loader /> : (
           <button className='button__large' type='submit' onClick={addReview}>
-            {reviews?.find((review) => review.userId === localStorage.getItem('userId')) ? 'Du har redan recenserat denna meetup!' : 'Skicka'}
+            {hasReviewedMeetup ? 'Du har redan recenserat denna meetup!' : 'Skicka'}
           </button>
         )}
       </div>
