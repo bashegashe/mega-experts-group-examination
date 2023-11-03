@@ -25,6 +25,7 @@ export default function ReviewForm ({meetupId}: {meetupId: Meetup['id']}) {
 
     if (response.success === true) {
       alert('Din recension har sparats')
+      navigate(`/meetup/${meetupId}`)
     } else if (response.error === 'You cannot review a meetup that has not happened yet') {
       alert('Recension sparades inte. Du kan inte recensera en meetup som inte har ägt rum än.')
     } else if (response.error === 'You have already reviewed this meetup') {
