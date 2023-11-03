@@ -49,7 +49,7 @@ export default function Reviews() {
       <Menu />
       {meetup && <MeetupLargeCard {...meetup} />}
       {!isLoading && <hr style={{marginBottom: '1.3rem'}} />}
-      {meetup && <ReviewForm meetupId={meetup.id} />}
+      {meetup && <ReviewForm reviews={meetup.reviews} meetupId={meetup.id} />}
       {isLoading && <Loader />}
     </main>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Meetup } from "../../types/types"
+import { Meetup, MeetupFullDetail } from "../../types/types"
 import StarRating from "../StarRating/StarRating"
 import { postReview } from "../../services/api";
 import Loader from "../Loader/Loader";
@@ -8,7 +8,7 @@ import { Review } from "../../types/types";
 
 const DEFAULT_RATING = 1;
 
-export default function ReviewForm ({meetupId}: {meetupId: Meetup['id']}) {
+export default function ReviewForm ({meetupId, reviews}: {meetupId: Meetup['id'], reviews: MeetupFullDetail['reviews']}) {
   const navigate = useNavigate()
 
   const [rating, setRating] = useState<number>(DEFAULT_RATING)
@@ -58,7 +58,7 @@ export default function ReviewForm ({meetupId}: {meetupId: Meetup['id']}) {
         </div>
         {isLoading ? <Loader /> : (
           <button className='button__large' type='submit' onClick={addReview}>
-            Skicka
+            {reviews?.find((review) => review.userId === localStorage.getItem('userId')) ? 'Du har redan recenserat denna meetup!' : 'Skicka'}
           </button>
         )}
       </div>
