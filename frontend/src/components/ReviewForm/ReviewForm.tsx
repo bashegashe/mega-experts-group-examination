@@ -62,7 +62,7 @@ export default function ReviewForm ({meetupId, reviews}: {meetupId: Meetup['id']
         </>
       )}
         {isLoading ? <Loader /> : (
-          <button className='button__large' type='submit' onClick={addReview}>
+          <button className='button__large' type='submit' onClick={addReview} disabled={Boolean(hasReviewedMeetup)}>
             {hasReviewedMeetup ? 'Du har redan recenserat denna meetup!' : 'Skicka'}
           </button>
         )}
