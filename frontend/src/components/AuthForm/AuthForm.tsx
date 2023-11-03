@@ -43,7 +43,7 @@ function AuthForm({ onSubmit, initialValues }: AuthFormProps) {
         value={data.password}
         onChange={handleChange}
       />
-      <button className='button__large' type='submit'>
+      <button className='button__large button__large--effect' type='submit'>
         Skicka
       </button>
     </form>
