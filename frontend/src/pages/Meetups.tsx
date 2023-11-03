@@ -84,9 +84,9 @@ function Meetups() {
       )}
 
       <Search onSearch={handleSearch} filters={filters} />
-      {filteredMeetups && <NumResults filteredMeetups={filteredMeetups} />}
-      {filteredMeetups.length === 0 ? (
-        <p>Inga resultat</p>
+      {filteredMeetups && !isLoading && <NumResults filteredMeetups={filteredMeetups} />}
+      {filteredMeetups.length === 0 && !isLoading ? (
+        <p>Inget resultat</p>
       ) : (
         filteredMeetups.map((meetup) => (
           <MeetupLargeCard

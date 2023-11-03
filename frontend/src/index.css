@@ -65,6 +65,7 @@ body {
   color: #7f7f7f;
   border: none;
   border-radius: 100px;
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.2);
 }
 
 .input__large--margin {
